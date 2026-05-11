@@ -1,0 +1,34 @@
+[
+  {
+    "id": "cinemark",
+    "nombre": "Cinemark",
+    "logo": "/logos/cinemark.svg",
+    "color": "#E31837",
+    "url_base": "https://www.cinemark.cl",
+    "url_compra": "https://www.cinemark.cl/comprar"
+  },
+  {
+    "id": "cinepolis",
+    "nombre": "Cinépolis",
+    "logo": "/logos/cinepolis.svg",
+    "color": "#FF6B00",
+    "url_base": "https://www.cinepolis.cl",
+    "url_compra": "https://www.cinepolis.cl/comprar"
+  },
+  {
+    "id": "cineplanet",
+    "nombre": "Cineplanet",
+    "logo": "/logos/cineplanet.svg",
+    "color": "#003087",
+    "url_base": "https://www.cineplanet.cl",
+    "url_compra": "https://www.cineplanet.cl/comprar"
+  },
+  {
+    "id": "muvix",
+    "nombre": "Muvix",
+    "logo": "/logos/muvix.svg",
+    "color": "#6B21A8",
+    "url_base": "https://www.muvix.cl",
+    "url_compra": "https://www.muvix.cl/comprar"
+  }
+]
