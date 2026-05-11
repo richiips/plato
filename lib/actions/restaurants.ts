@@ -143,6 +143,31 @@ export async function updateBranding(id: string, formData: FormData) {
   revalidatePath(`/admin/restaurants/${id}/branding`);
 }
 
+export async function updateSplash(id: string, formData: FormData) {
+  await requireRestaurantAccess(id);
+  const supabase = await createClient();
+
+  const data = {
+    splash_enabled: formData.get("splash_enabled") === "true",
+    tagline: (formData.get("tagline") as string) || null,
+    hours: (formData.get("hours") as string) || null,
+    splash_bg_type: (formData.get("splash_bg_type") as string) || "gradient",
+    splash_pattern_id: (formData.get("splash_pattern_id") as string) || "dots",
+    cover_image_url: (formData.get("cover_image_url") as string) || null,
+  };
+
+  await (supabase as AnyClient).from("restaurants").update(data).eq("id", id);
+
+  const { data: restaurant } = await supabase
+    .from("restaurants")
+    .select("slug")
+    .eq("id", id)
+    .single<{ slug: string }>();
+
+  if (restaurant) revalidatePath(`/r/${restaurant.slug}`);
+  revalidatePath(`/admin/restaurants/${id}/splash`);
+}
+
 export async function togglePublished(id: string, isPublished: boolean) {
   await requireSuperAdmin();
   const supabase = await createClient();

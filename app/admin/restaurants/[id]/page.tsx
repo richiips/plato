@@ -60,6 +60,9 @@ export default async function RestaurantDetailPage({
       <Tabs defaultValue="info">
         <TabsList>
           <TabsTrigger value="info">Info</TabsTrigger>
+          <TabsTrigger value="splash" asChild>
+            <Link href={`/admin/restaurants/${id}/splash`}>Splash</Link>
+          </TabsTrigger>
           <TabsTrigger value="menu" asChild>
             <Link href={`/admin/restaurants/${id}/menu`}>Menú</Link>
           </TabsTrigger>
@@ -71,9 +74,6 @@ export default async function RestaurantDetailPage({
           </TabsTrigger>
           <TabsTrigger value="analytics" asChild>
             <Link href={`/admin/restaurants/${id}/analytics`}>Analytics</Link>
-          </TabsTrigger>
-          <TabsTrigger value="settings" asChild>
-            <Link href={`/admin/restaurants/${id}/settings`}>Config</Link>
           </TabsTrigger>
         </TabsList>
 

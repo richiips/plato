@@ -31,7 +31,7 @@ export async function getDashboardContext(): Promise<DashboardContext> {
     .eq("profile_id", user.id)
     .returns<RestaurantMember[]>();
 
-  if (!members?.length) redirect("/login");
+  if (!members?.length) redirect("/admin"); // super_admin sin restaurant_members → ir a admin
 
   // Fetch all associated restaurants
   const restaurantIds = members.map((m) => m.restaurant_id);

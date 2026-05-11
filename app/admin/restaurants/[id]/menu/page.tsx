@@ -3,6 +3,8 @@ import Link from "next/link";
 import { ChevronLeft } from "lucide-react";
 import { createClient } from "@/lib/supabase/server";
 import { MenuEditor } from "@/components/admin/MenuEditor";
+import { CategoryForm } from "@/components/admin/CategoryForm";
+import { MenuImporter } from "@/components/admin/MenuImporter";
 import type { Restaurant, MenuCategory, MenuItem } from "@/types/database";
 
 export default async function MenuEditorPage({
@@ -50,6 +52,13 @@ export default async function MenuEditorPage({
         categories={categories ?? []}
         items={items ?? []}
       />
+
+      <div id="new-category-form" className="rounded-xl border border-border bg-background p-6">
+        <h2 className="mb-4 text-sm font-semibold">Nueva categoría</h2>
+        <CategoryForm restaurantId={id} />
+      </div>
+
+      <MenuImporter restaurantId={id} currency={restaurant.default_currency} />
     </div>
   );
 }

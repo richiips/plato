@@ -2,7 +2,7 @@
 
 import { useRef } from "react";
 import { cn } from "@/lib/utils";
-import type { CategoryWithItems } from "@/app/(public)/r/[slug]/page";
+import type { CategoryWithItems } from "@/app/(public)/r/[slug]/menu/page";
 import type { SupportedLanguage } from "@/types/menu";
 import { getLocalizedText } from "@/types/menu";
 

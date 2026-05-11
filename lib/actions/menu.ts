@@ -256,6 +256,89 @@ export async function updateItemPrice(itemId: string, price: number) {
   if (slug) revalidatePath(`/r/${slug}`);
 }
 
+const ImportSchema = z.object({
+  categories: z.array(
+    z.object({
+      name: z.string().min(1),
+      items: z.array(
+        z.object({
+          name: z.string().min(1),
+          description: z.string().optional().default(""),
+          price: z.number().int().min(0),
+        }),
+      ),
+    }),
+  ),
+});
+
+export type ImportMenuState = { message?: string; error?: string };
+
+export async function importMenu(
+  restaurantId: string,
+  currency: string,
+  _prev: ImportMenuState,
+  formData: FormData,
+): Promise<ImportMenuState> {
+  await requireRestaurantAccess(restaurantId);
+
+  const raw = formData.get("json") as string;
+  let parsed: z.infer<typeof ImportSchema>;
+  try {
+    parsed = ImportSchema.parse(JSON.parse(raw));
+  } catch {
+    return { error: "JSON inválido. Verifica el formato e intenta de nuevo." };
+  }
+
+  const supabase = await createClient();
+
+  const { data: lastCatRow } = await supabase
+    .from("menu_categories")
+    .select("position")
+    .eq("restaurant_id", restaurantId)
+    .order("position", { ascending: false })
+    .limit(1)
+    .returns<{ position: number }[]>();
+
+  let catPosition = (lastCatRow?.[0]?.position ?? -1) + 1;
+  let totalItems = 0;
+
+  for (const cat of parsed.categories) {
+    const { data: newCat, error: catErr } = await (supabase as AnyClient)
+      .from("menu_categories")
+      .insert({
+        restaurant_id: restaurantId,
+        name: { es: cat.name },
+        position: catPosition++,
+      })
+      .select("id")
+      .single();
+
+    if (catErr || !newCat) continue;
+
+    const itemRows = cat.items.map((item, idx) => ({
+      restaurant_id: restaurantId,
+      category_id: newCat.id,
+      name: { es: item.name },
+      description: item.description ? { es: item.description } : null,
+      price: item.price,
+      currency,
+      position: idx,
+    }));
+
+    if (itemRows.length) {
+      await (supabase as AnyClient).from("menu_items").insert(itemRows);
+      totalItems += itemRows.length;
+    }
+  }
+
+  const slug = await getRestaurantSlug(restaurantId);
+  revalidateMenuPaths(restaurantId, slug);
+
+  return {
+    message: `Importación completa: ${parsed.categories.length} categorías y ${totalItems} platos añadidos.`,
+  };
+}
+
 export async function deleteMenuItem(restaurantId: string, itemId: string) {
   await requireRestaurantAccess(restaurantId);
   const supabase = await createClient();

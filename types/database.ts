@@ -47,6 +47,11 @@ export interface Restaurant {
   supported_languages: string[];
   is_active: boolean;
   is_published: boolean;
+  splash_enabled: boolean;
+  tagline: string | null;
+  hours: string | null;
+  splash_bg_type: "color" | "gradient" | "pattern" | "image";
+  splash_pattern_id: "dots" | "lines" | "grid" | "waves" | "diagonal";
   created_at: string;
   updated_at: string;
 }

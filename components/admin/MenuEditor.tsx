@@ -123,7 +123,15 @@ export function MenuEditor({
   if (categories.length === 0) {
     return (
       <div className="rounded-xl border border-dashed border-border py-16 text-center text-muted-foreground">
-        <p className="text-sm">No hay categorías. Crea una primero desde configuración.</p>
+        <p className="text-sm font-medium text-foreground">No hay categorías todavía</p>
+        <p className="mt-1 text-sm">Creá una categoría para empezar a armar la carta.</p>
+        <Button className="mt-4" onClick={() => {
+          const form = document.getElementById("new-category-form");
+          form?.scrollIntoView({ behavior: "smooth" });
+        }}>
+          <Plus className="mr-1.5 h-3.5 w-3.5" />
+          Crear primera categoría
+        </Button>
       </div>
     );
   }

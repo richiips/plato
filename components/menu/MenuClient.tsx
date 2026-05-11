@@ -5,7 +5,7 @@ import { CategoryTabs } from "./CategoryTabs";
 import { DietaryFilters } from "./DietaryFilters";
 import { ItemCard } from "./ItemCard";
 import { LanguageSwitcher } from "./LanguageSwitcher";
-import type { CategoryWithItems } from "@/app/(public)/r/[slug]/page";
+import type { CategoryWithItems } from "@/app/(public)/r/[slug]/menu/page";
 import type { DietaryTag, SupportedLanguage } from "@/types/menu";
 import { getLocalizedText } from "@/types/menu";
 

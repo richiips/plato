@@ -1,22 +1,23 @@
+import { cache } from "react";
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import type { Profile, RestaurantMember } from "@/types/database";
 
-export async function getCurrentUser() {
+// cache() deduplicates calls within the same server request — avoids
+// multiple round-trips to Supabase Auth when layout + page both need the user.
+export const getCurrentUser = cache(async () => {
   const supabase = await createClient();
   const {
     data: { user },
   } = await supabase.auth.getUser();
   return user;
-}
+});
 
-export async function getCurrentProfile(): Promise<Profile | null> {
-  const supabase = await createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+export const getCurrentProfile = cache(async (): Promise<Profile | null> => {
+  const user = await getCurrentUser();
   if (!user) return null;
 
+  const supabase = await createClient();
   const { data } = await supabase
     .from("profiles")
     .select("*")
@@ -24,7 +25,7 @@ export async function getCurrentProfile(): Promise<Profile | null> {
     .single<Profile>();
 
   return data;
-}
+});
 
 export async function requireSuperAdmin(): Promise<Profile> {
   const profile = await getCurrentProfile();
@@ -63,19 +64,14 @@ export async function requireMember(restaurantId: string): Promise<RestaurantMem
 export async function requireRestaurantAccess(
   restaurantId: string,
 ): Promise<{ profile: Profile; member: RestaurantMember | null }> {
-  const profile = await getCurrentProfile();
-  if (!profile) redirect("/login");
+  const [profile, user] = await Promise.all([getCurrentProfile(), getCurrentUser()]);
+  if (!profile || !user) redirect("/login");
 
   if (profile.role === "super_admin") {
     return { profile, member: null };
   }
 
   const supabase = await createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-  if (!user) redirect("/login");
-
   const { data: member } = await supabase
     .from("restaurant_members")
     .select("*")

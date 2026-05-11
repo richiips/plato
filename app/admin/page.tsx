@@ -1,36 +1,98 @@
-import Link from "next/link";
-import { Plus } from "lucide-react";
 import { createClient } from "@/lib/supabase/server";
-import { Button } from "@/components/ui/button";
-import { RestaurantsTable } from "@/components/admin/RestaurantsTable";
-import type { Restaurant } from "@/types/database";
+import { createAdminClient } from "@/lib/supabase/admin";
+import { Store, Users, Eye, TrendingUp } from "lucide-react";
+
+async function getMetrics() {
+  const supabase = await createClient();
+  const adminClient = createAdminClient();
+
+  const [
+    { count: totalRestaurants },
+    { count: publishedRestaurants },
+    { count: totalItems },
+    { data: analytics },
+    { data: authUsers },
+  ] = await Promise.all([
+    supabase.from("restaurants").select("*", { count: "exact", head: true }),
+    supabase
+      .from("restaurants")
+      .select("*", { count: "exact", head: true })
+      .eq("is_published", true),
+    supabase.from("menu_items").select("*", { count: "exact", head: true }),
+    supabase
+      .from("analytics_events")
+      .select("created_at")
+      .eq("event_type", "page_view")
+      .gte("created_at", new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString()),
+    adminClient.auth.admin.listUsers({ perPage: 1000 }),
+  ]);
+
+  return {
+    totalRestaurants: totalRestaurants ?? 0,
+    publishedRestaurants: publishedRestaurants ?? 0,
+    totalItems: totalItems ?? 0,
+    viewsLast30: analytics?.length ?? 0,
+    totalUsers: authUsers?.users?.length ?? 0,
+  };
+}
+
+function StatCard({
+  label,
+  value,
+  sub,
+  Icon,
+}: {
+  label: string;
+  value: number | string;
+  sub?: string;
+  Icon: React.ElementType;
+}) {
+  return (
+    <div className="rounded-xl border border-border bg-background p-5">
+      <div className="flex items-start justify-between">
+        <p className="text-sm text-muted-foreground">{label}</p>
+        <Icon className="h-4 w-4 text-muted-foreground" />
+      </div>
+      <p className="mt-3 text-3xl font-bold tabular-nums">{value}</p>
+      {sub && <p className="mt-1 text-xs text-muted-foreground">{sub}</p>}
+    </div>
+  );
+}
 
 export default async function AdminDashboardPage() {
-  const supabase = await createClient();
-  const { data: restaurants } = await supabase
-    .from("restaurants")
-    .select("*")
-    .order("created_at", { ascending: false })
-    .returns<Restaurant[]>();
+  const metrics = await getMetrics();
 
   return (
-    <div className="space-y-6">
-      <div className="flex items-center justify-between">
-        <div>
-          <h1 className="text-2xl font-bold">Restaurantes</h1>
-          <p className="text-sm text-muted-foreground">
-            {restaurants?.length ?? 0} restaurantes en la plataforma
-          </p>
-        </div>
-        <Button asChild>
-          <Link href="/admin/restaurants/new">
-            <Plus className="mr-1.5 h-4 w-4" />
-            Nuevo restaurante
-          </Link>
-        </Button>
+    <div className="space-y-8">
+      <div>
+        <h1 className="text-2xl font-bold">Dashboard</h1>
+        <p className="text-sm text-muted-foreground">Resumen general de la plataforma</p>
       </div>
 
-      <RestaurantsTable restaurants={restaurants ?? []} />
+      <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
+        <StatCard
+          label="Restaurantes"
+          value={metrics.totalRestaurants}
+          sub={`${metrics.publishedRestaurants} publicados`}
+          Icon={Store}
+        />
+        <StatCard
+          label="Usuarios"
+          value={metrics.totalUsers}
+          Icon={Users}
+        />
+        <StatCard
+          label="Platos en menús"
+          value={metrics.totalItems}
+          Icon={TrendingUp}
+        />
+        <StatCard
+          label="Vistas (30 días)"
+          value={metrics.viewsLast30}
+          sub="page_view events"
+          Icon={Eye}
+        />
+      </div>
     </div>
   );
 }
