@@ -1,6 +1,6 @@
 "use client";
 
-import { useActionState, useEffect } from "react";
+import { useActionState, useEffect, useState } from "react";
 import { useFormStatus } from "react-dom";
 import { Loader2 } from "lucide-react";
 import { toast } from "sonner";
@@ -15,7 +15,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { createMenuItem, updateMenuItem } from "@/lib/actions/menu";
-import type { MenuCategory, MenuItem, CurrencyCode } from "@/types/database";
+import type { MenuCategory, MenuItem } from "@/types/database";
 import type { DietaryTag } from "@/types/menu";
 import { getLocalizedText } from "@/types/menu";
 import { ImageUploader } from "./ImageUploader";
@@ -49,7 +49,6 @@ interface ItemSheetProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   restaurantId: string;
-  defaultCurrency: CurrencyCode;
   categories: MenuCategory[];
   item: MenuItem | null;
 }
@@ -58,7 +57,6 @@ export function ItemSheet({
   open,
   onOpenChange,
   restaurantId,
-  defaultCurrency,
   categories,
   item,
 }: ItemSheetProps) {
@@ -72,7 +70,7 @@ export function ItemSheet({
 
   useEffect(() => {
     if (state.message === "ok") {
-      toast.success(isEdit ? "Plato actualizado" : "Plato creado");
+      toast.success(isEdit ? "Ítem actualizado" : "Ítem creado");
       onOpenChange(false);
     }
   }, [state.message, isEdit, onOpenChange]);
@@ -91,7 +89,7 @@ export function ItemSheet({
     <Sheet open={open} onOpenChange={onOpenChange}>
       <SheetContent className="w-full overflow-y-auto sm:max-w-xl">
         <SheetHeader>
-          <SheetTitle>{isEdit ? "Editar plato" : "Nuevo plato"}</SheetTitle>
+          <SheetTitle>{isEdit ? "Editar ítem" : "Nuevo ítem"}</SheetTitle>
         </SheetHeader>
 
         <form action={formAction} className="mt-6 space-y-5">
@@ -155,50 +153,15 @@ export function ItemSheet({
           </div>
 
           {/* Price */}
-          <div className="grid gap-3 sm:grid-cols-3">
-            <div>
-              <Label htmlFor="price">Precio *</Label>
-              <Input
-                id="price"
-                name="price"
-                type="number"
-                min={0}
-                defaultValue={item?.price ?? 0}
-                className="mt-1"
-              />
-              <FieldError messages={state.errors?.price} />
-            </div>
-            <div>
-              <Label htmlFor="compare_at_price">Precio tachado</Label>
-              <Input
-                id="compare_at_price"
-                name="compare_at_price"
-                type="number"
-                min={0}
-                defaultValue={item?.compare_at_price ?? ""}
-                className="mt-1"
-              />
-            </div>
-            <div>
-              <Label htmlFor="currency">Moneda</Label>
-              <select
-                id="currency"
-                name="currency"
-                defaultValue={item?.currency ?? defaultCurrency}
-                className="mt-1 w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
-              >
-                {["CLP", "USD", "EUR", "PEN", "ARS", "MXN"].map((c) => (
-                  <option key={c} value={c}>
-                    {c}
-                  </option>
-                ))}
-              </select>
-            </div>
-          </div>
+          <PriceFields
+            defaultPrice={item?.price ?? 0}
+            defaultCompareAtPrice={item?.compare_at_price ?? null}
+            priceErrors={state.errors?.price}
+          />
 
           {/* Image upload */}
           <div>
-            <Label>Imagen del plato</Label>
+            <Label>Imagen del ítem</Label>
             <div className="mt-2">
               <ImageUploader
                 name="main_image_url"
@@ -229,36 +192,87 @@ export function ItemSheet({
             <DietaryTagsHidden defaultTags={currentDietaryTags} />
           </div>
 
-          {/* Extra */}
-          <div className="grid gap-3 sm:grid-cols-2">
-            <div>
-              <Label htmlFor="prep_time_minutes">Tiempo de preparación (min)</Label>
-              <Input
-                id="prep_time_minutes"
-                name="prep_time_minutes"
-                type="number"
-                min={0}
-                defaultValue={item?.prep_time_minutes ?? ""}
-                className="mt-1"
-              />
-            </div>
-            <div>
-              <Label htmlFor="calories">Calorías</Label>
-              <Input
-                id="calories"
-                name="calories"
-                type="number"
-                min={0}
-                defaultValue={item?.calories ?? ""}
-                className="mt-1"
-              />
-            </div>
-          </div>
-
-          <SubmitButton label={isEdit ? "Guardar cambios" : "Crear plato"} />
+          <SubmitButton label={isEdit ? "Guardar cambios" : "Crear ítem"} />
         </form>
       </SheetContent>
     </Sheet>
+  );
+}
+
+function formatCLP(raw: string): string {
+  const digits = raw.replace(/\D/g, "");
+  if (!digits) return "";
+  return digits.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+}
+
+function PriceFields({
+  defaultPrice,
+  defaultCompareAtPrice,
+  priceErrors,
+}: {
+  defaultPrice: number;
+  defaultCompareAtPrice: number | null;
+  priceErrors?: string[];
+}) {
+  const [priceDisplay, setPriceDisplay] = useState(
+    defaultPrice > 0 ? String(defaultPrice).replace(/\B(?=(\d{3})+(?!\d))/g, ".") : "",
+  );
+  const [compareDisplay, setCompareDisplay] = useState(
+    defaultCompareAtPrice != null
+      ? String(defaultCompareAtPrice).replace(/\B(?=(\d{3})+(?!\d))/g, ".")
+      : "",
+  );
+
+  // The actual numeric values submitted to the server action
+  const priceNumeric = priceDisplay.replace(/\./g, "");
+  const compareNumeric = compareDisplay.replace(/\./g, "");
+
+  return (
+    <div className="grid gap-3 sm:grid-cols-2">
+      <div>
+        <Label htmlFor="price_display">Precio CLP *</Label>
+        <div className="relative mt-1">
+          <span className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-sm text-muted-foreground">
+            $
+          </span>
+          <Input
+            id="price_display"
+            value={priceDisplay}
+            onFocus={(e) => {
+              if (e.target.value === "0") setPriceDisplay("");
+            }}
+            onChange={(e) => setPriceDisplay(formatCLP(e.target.value))}
+            className="mt-0 pl-6 font-mono"
+            inputMode="numeric"
+            placeholder="0"
+          />
+        </div>
+        <input type="hidden" name="price" value={priceNumeric} />
+        <FieldError messages={priceErrors} />
+      </div>
+      <div>
+        <Label htmlFor="compare_display">Precio tachado CLP</Label>
+        <div className="relative mt-1">
+          <span className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-sm text-muted-foreground">
+            $
+          </span>
+          <Input
+            id="compare_display"
+            value={compareDisplay}
+            onFocus={(e) => {
+              if (e.target.value === "0") setCompareDisplay("");
+            }}
+            onChange={(e) => setCompareDisplay(formatCLP(e.target.value))}
+            className="mt-0 pl-6 font-mono"
+            inputMode="numeric"
+            placeholder="Opcional"
+          />
+        </div>
+        <input type="hidden" name="compare_at_price" value={compareNumeric} />
+      </div>
+      {/* Always submit CLP */}
+      <input type="hidden" name="currency" value="CLP" />
+    </div>
   );
 }
 

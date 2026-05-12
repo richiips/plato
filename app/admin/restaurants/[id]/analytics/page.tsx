@@ -1,3 +1,5 @@
+import Link from "next/link";
+import { ChevronLeft } from "lucide-react";
 import { createClient } from "@/lib/supabase/server";
 import { notFound } from "next/navigation";
 import type { Restaurant } from "@/types/database";
@@ -46,7 +48,16 @@ export default async function AnalyticsPage({ params }: { params: Promise<{ id: 
 
   return (
     <div className="space-y-6">
-      <h1 className="text-2xl font-bold">Analytics — {restaurant.name}</h1>
+      <div>
+        <Link
+          href={`/admin/restaurants/${id}`}
+          className="inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground"
+        >
+          <ChevronLeft className="h-4 w-4" />
+          Volver
+        </Link>
+        <h1 className="mt-2 text-2xl font-bold">Analytics — {restaurant.name}</h1>
+      </div>
 
       <div className="grid gap-4 sm:grid-cols-3">
         {stats.map((s) => (

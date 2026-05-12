@@ -74,6 +74,7 @@ const SettingsSchema = z.object({
   website_url: z.string().url("URL inválida").optional().or(z.literal("")),
   google_maps_url: z.string().url("URL inválida").optional().or(z.literal("")),
   reservation_url: z.string().url("URL inválida").optional().or(z.literal("")),
+  hours: z.string().optional(),
 });
 
 export type SettingsFormState = {
@@ -105,6 +106,7 @@ export async function updateRestaurantSettings(
       website_url: parsed.data.website_url || null,
       google_maps_url: parsed.data.google_maps_url || null,
       reservation_url: parsed.data.reservation_url || null,
+      hours: parsed.data.hours || null,
     })
     .eq("id", restaurantId);
 

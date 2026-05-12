@@ -111,6 +111,17 @@ export function DashboardSettingsForm({ restaurant }: DashboardSettingsFormProps
             className="mt-1"
           />
         </div>
+        <div>
+          <Label htmlFor="hours">Horarios</Label>
+          <Textarea
+            id="hours"
+            name="hours"
+            defaultValue={restaurant.hours ?? ""}
+            rows={3}
+            placeholder={"Lun–Vie 13:00–23:00\nSáb 12:00–00:00\nDom cerrado"}
+            className="mt-1"
+          />
+        </div>
       </section>
 
       <Separator />

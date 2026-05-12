@@ -27,7 +27,7 @@ export default async function DashboardPage() {
     ]);
 
   const QUICK_LINKS = [
-    { href: "/dashboard/menu", label: "Editor de menú", Icon: UtensilsCrossed, desc: "Agregar y editar platos" },
+    { href: "/dashboard/menu", label: "Editor de menú", Icon: UtensilsCrossed, desc: "Agregar y editar ítems" },
     { href: "/dashboard/branding", label: "Branding", Icon: Paintbrush, desc: "Colores, fuentes e imágenes" },
     { href: "/dashboard/settings", label: "Configuración", Icon: Settings, desc: "Datos del restaurante" },
   ];
@@ -62,8 +62,8 @@ export default async function DashboardPage() {
       <div className="grid gap-4 sm:grid-cols-3">
         {[
           { label: "Categorías", value: categoryCount ?? 0 },
-          { label: "Platos en total", value: itemCount ?? 0 },
-          { label: "Platos disponibles", value: availableCount ?? 0 },
+          { label: "Ítems en total", value: itemCount ?? 0 },
+          { label: "Ítems disponibles", value: availableCount ?? 0 },
         ].map(({ label, value }) => (
           <div key={label} className="rounded-xl border border-border bg-background p-5">
             <p className="text-sm text-muted-foreground">{label}</p>

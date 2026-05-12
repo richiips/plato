@@ -31,15 +31,24 @@ export function ImageUploader({ name, defaultValue, label = "Imagen" }: ImageUpl
     setUploading(true);
 
     try {
-      // Get one-time Cloudflare upload URL
-      const tokenRes = await fetch("/api/cloudflare/upload-url", { method: "POST" });
-      if (!tokenRes.ok) throw new Error("No se pudo obtener URL de subida.");
+      // Get presigned R2 PUT URL
+      const tokenRes = await fetch("/api/cloudflare/upload-url", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ filename: file.name, contentType: file.type }),
+      });
+      if (!tokenRes.ok) {
+        const body = await tokenRes.json().catch(() => ({}));
+        throw new Error(body?.error ?? "No se pudo obtener URL de subida.");
+      }
       const { uploadURL, deliveryUrl } = await tokenRes.json();
 
-      // Upload directly to Cloudflare
-      const form = new FormData();
-      form.append("file", file);
-      const uploadRes = await fetch(uploadURL, { method: "POST", body: form });
+      // Upload directly to R2 via presigned PUT
+      const uploadRes = await fetch(uploadURL, {
+        method: "PUT",
+        headers: { "Content-Type": file.type },
+        body: file,
+      });
       if (!uploadRes.ok) throw new Error("Error al subir la imagen.");
 
       setUrl(deliveryUrl);

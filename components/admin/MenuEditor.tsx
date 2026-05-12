@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useOptimistic, useTransition } from "react";
+import { useState, useOptimistic, useTransition, useEffect, useRef } from "react";
 import {
   DndContext,
   closestCenter,
@@ -20,19 +20,17 @@ import { Button } from "@/components/ui/button";
 import { SortableItemRow } from "./SortableItemRow";
 import { ItemSheet } from "./ItemSheet";
 import { reorderItems, toggleItemAvailable, deleteMenuItem } from "@/lib/actions/menu";
-import type { MenuCategory, MenuItem, CurrencyCode } from "@/types/database";
+import type { MenuCategory, MenuItem } from "@/types/database";
 import { getLocalizedText } from "@/types/menu";
 
 interface MenuEditorProps {
   restaurantId: string;
-  defaultCurrency: CurrencyCode;
   categories: MenuCategory[];
   items: MenuItem[];
 }
 
 export function MenuEditor({
   restaurantId,
-  defaultCurrency,
   categories,
   items: initialItems,
 }: MenuEditorProps) {
@@ -42,6 +40,23 @@ export function MenuEditor({
   const [sheetOpen, setSheetOpen] = useState(false);
   const [editingItem, setEditingItem] = useState<MenuItem | null>(null);
   const [, startTransition] = useTransition();
+  const prevCategoryCount = useRef(categories.length);
+  const tabRefs = useRef<Record<string, HTMLButtonElement | null>>({});
+
+  // When a new category is created (count increases), select it and scroll it into view
+  useEffect(() => {
+    if (categories.length > prevCategoryCount.current) {
+      const newCat = categories[categories.length - 1];
+      if (newCat) {
+        setSelectedCategoryId(newCat.id);
+        // Defer to next tick so the DOM has rendered the new tab button
+        setTimeout(() => {
+          tabRefs.current[newCat.id]?.scrollIntoView({ behavior: "smooth", block: "nearest", inline: "center" });
+        }, 0);
+      }
+    }
+    prevCategoryCount.current = categories.length;
+  }, [categories]);
 
   const [items, setOptimisticItems] = useOptimistic(
     initialItems,
@@ -103,7 +118,7 @@ export function MenuEditor({
       setOptimisticItems({ type: "delete", id: item.id });
       try {
         await deleteMenuItem(restaurantId, item.id);
-        toast.success("Plato eliminado");
+        toast.success("Ítem eliminado");
       } catch {
         toast.error("Error al eliminar");
       }
@@ -143,10 +158,11 @@ export function MenuEditor({
         {categories.map((cat) => (
           <button
             key={cat.id}
+            ref={(el) => { tabRefs.current[cat.id] = el; }}
             onClick={() => setSelectedCategoryId(cat.id)}
             className={`rounded-full px-3.5 py-1.5 text-sm font-medium transition-colors ${
               cat.id === selectedCategoryId
-                ? "bg-primary text-primary-foreground"
+                ? "bg-primary text-primary-foreground ring-2 ring-primary/30"
                 : "bg-secondary text-muted-foreground hover:bg-muted"
             }`}
           >
@@ -162,17 +178,17 @@ export function MenuEditor({
       <div className="rounded-xl border border-border bg-background">
         <div className="flex items-center justify-between border-b border-border px-4 py-3">
           <span className="text-sm font-medium">
-            {categoryItems.length} platos
+            {categoryItems.length} ítems
           </span>
           <Button size="sm" onClick={openCreate}>
             <Plus className="mr-1.5 h-3.5 w-3.5" />
-            Agregar plato
+            Agregar ítem
           </Button>
         </div>
 
         {categoryItems.length === 0 ? (
           <div className="py-12 text-center text-sm text-muted-foreground">
-            No hay platos en esta categoría.
+            No hay ítems en esta categoría.
           </div>
         ) : (
           <DndContext
@@ -204,7 +220,6 @@ export function MenuEditor({
         open={sheetOpen}
         onOpenChange={setSheetOpen}
         restaurantId={restaurantId}
-        defaultCurrency={defaultCurrency}
         categories={categories}
         item={editingItem}
       />

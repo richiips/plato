@@ -48,12 +48,12 @@ function StatCard({
   Icon: React.ElementType;
 }) {
   return (
-    <div className="rounded-xl border border-border bg-background p-5">
+    <div className="rounded border border-[#0A0A0A]/15 bg-white p-5">
       <div className="flex items-start justify-between">
         <p className="text-sm text-muted-foreground">{label}</p>
-        <Icon className="h-4 w-4 text-muted-foreground" />
+        <Icon className="h-4 w-4 text-[#0A0A0A]/40" />
       </div>
-      <p className="mt-3 text-3xl font-bold tabular-nums">{value}</p>
+      <p className="mt-3 text-3xl font-medium tabular-nums">{value}</p>
       {sub && <p className="mt-1 text-xs text-muted-foreground">{sub}</p>}
     </div>
   );
@@ -82,7 +82,7 @@ export default async function AdminDashboardPage() {
           Icon={Users}
         />
         <StatCard
-          label="Platos en menús"
+          label="Ítems en menús"
           value={metrics.totalItems}
           Icon={TrendingUp}
         />

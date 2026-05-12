@@ -40,9 +40,10 @@ export function ItemCard({ item, language }: ItemCardProps) {
   return (
     <article
       className={cn(
-        "flex gap-3 rounded-xl border border-border bg-card p-3 transition-shadow hover:shadow-sm",
+        "flex gap-3 rounded-xl bg-card p-3 transition-shadow hover:shadow-sm",
         !item.is_available && "opacity-60",
       )}
+      style={{ border: "var(--card-stroke)" }}
     >
       {/* Text content */}
       <div className="flex min-w-0 flex-1 flex-col justify-between gap-2">

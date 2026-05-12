@@ -53,7 +53,7 @@ const PATTERN_SIZE: Record<string, string> = {
 };
 
 function buildBackground(r: Restaurant): React.CSSProperties {
-  const { splash_bg_type, splash_pattern_id, primary_color, secondary_color, cover_image_url } = r;
+  const { splash_bg_type, splash_pattern_id, splash_color, splash_gradient_from, splash_gradient_to, cover_image_url } = r;
 
   if (splash_bg_type === "image" && cover_image_url) {
     return {
@@ -65,22 +65,21 @@ function buildBackground(r: Restaurant): React.CSSProperties {
 
   if (splash_bg_type === "gradient") {
     return {
-      background: `linear-gradient(135deg, ${primary_color} 0%, ${secondary_color} 100%)`,
+      background: `linear-gradient(135deg, ${splash_gradient_from ?? "#000000"} 0%, ${splash_gradient_to ?? "#333333"} 100%)`,
     };
   }
 
   if (splash_bg_type === "pattern") {
-    const pattern = PATTERNS[splash_pattern_id] ?? PATTERNS.dots;
+    const patternCss = PATTERNS[splash_pattern_id] ?? PATTERNS.dots;
     const size = PATTERN_SIZE[splash_pattern_id] ?? "20px 20px";
     return {
-      backgroundColor: primary_color,
-      backgroundImage: pattern,
-      backgroundSize: size,
+      backgroundImage: `${patternCss}, linear-gradient(135deg, ${splash_gradient_from ?? "#000000"} 0%, ${splash_gradient_to ?? "#333333"} 100%)`,
+      backgroundSize: `${size}, cover`,
     };
   }
 
-  // color (default)
-  return { backgroundColor: primary_color };
+  // color sólido (default)
+  return { backgroundColor: splash_color ?? "#000000" };
 }
 
 function buildFontUrl(heading: string, body: string): string {
@@ -142,7 +141,7 @@ export default async function SplashPage({
 
           <div>
             <h1
-              className="text-4xl font-bold leading-tight drop-shadow"
+              className="text-3xl font-bold leading-tight drop-shadow sm:text-4xl"
               style={{ fontFamily: `'${restaurant.font_heading}', system-ui, sans-serif` }}
             >
               {restaurant.name}

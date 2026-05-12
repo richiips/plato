@@ -54,12 +54,37 @@ async function getPageData(slug: string) {
   return { restaurant, categories, items };
 }
 
+const FONT_CATALOG: Record<string, { googleName: string }> = {
+  "cormorant-garamond": { googleName: "Cormorant+Garamond" },
+  "playfair-display": { googleName: "Playfair+Display" },
+  "dm-sans": { googleName: "DM+Sans" },
+  "plus-jakarta-sans": { googleName: "Plus+Jakarta+Sans" },
+  "lora": { googleName: "Lora" },
+  "merriweather": { googleName: "Merriweather" },
+  "space-grotesk": { googleName: "Space+Grotesk" },
+  "bebas-neue": { googleName: "Bebas+Neue" },
+};
+
 function buildFontUrl(heading: string, body: string): string {
   const families = [...new Set([heading, body])]
     .filter((f) => f !== "system-ui")
     .map((f) => `family=${f.replace(/ /g, "+")}:wght@400;500;600;700`)
     .join("&");
   return families ? `https://fonts.googleapis.com/css2?${families}&display=swap` : "";
+}
+
+function buildCatalogFontUrl(fontId: string | null): string {
+  if (!fontId) return "";
+  const entry = FONT_CATALOG[fontId];
+  if (!entry) return "";
+  return `https://fonts.googleapis.com/css2?family=${entry.googleName}:wght@400;500;600;700&display=swap`;
+}
+
+function resolveCardStroke(cardStroke: string | null): string | null {
+  if (!cardStroke || cardStroke === "subtle") return null; // use CSS theme default
+  if (cardStroke === "none") return "none";
+  if (cardStroke === "bold") return "2px solid currentColor";
+  return null;
 }
 
 export default async function CartaPublicaPage({
@@ -81,20 +106,29 @@ export default async function CartaPublicaPage({
     .filter((c) => c.items.length > 0);
 
   const fontUrl = buildFontUrl(restaurant.font_heading, restaurant.font_body);
+  const catalogFontUrl = buildCatalogFontUrl(restaurant.font_family ?? null);
+  const cardStrokeOverride = resolveCardStroke(restaurant.card_stroke ?? null);
 
-  const cssVars = `
-    :root {
-      --menu-primary: ${restaurant.primary_color};
-      --menu-secondary: ${restaurant.secondary_color};
-      --menu-accent: ${restaurant.accent_color};
-      --menu-font-heading: '${restaurant.font_heading}', system-ui, sans-serif;
-      --menu-font-body: '${restaurant.font_body}', system-ui, sans-serif;
-    }
-  `.trim();
+  // Resolved heading font: catalog font takes precedence, falls back to font_heading column
+  const resolvedFontHeading = restaurant.font_family
+    ? (FONT_CATALOG[restaurant.font_family]?.googleName.replace(/\+/g, " ") ?? restaurant.font_heading)
+    : restaurant.font_heading;
+
+  const cssVars = [
+    `:root {`,
+    `  --menu-primary: ${restaurant.primary_color};`,
+    `  --menu-secondary: ${restaurant.secondary_color};`,
+    `  --menu-accent: ${restaurant.accent_color};`,
+    `  --menu-font-heading: '${resolvedFontHeading}', system-ui, sans-serif;`,
+    `  --menu-font-body: '${restaurant.font_body}', system-ui, sans-serif;`,
+    cardStrokeOverride ? `  --card-stroke: ${cardStrokeOverride};` : "",
+    `}`,
+  ].filter(Boolean).join("\n");
 
   return (
     <>
       {fontUrl && <link rel="stylesheet" href={fontUrl} />}
+      {catalogFontUrl && <link rel="stylesheet" href={catalogFontUrl} />}
       {/* eslint-disable-next-line react/no-danger */}
       <style dangerouslySetInnerHTML={{ __html: cssVars }} />
 

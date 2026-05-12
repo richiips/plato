@@ -27,8 +27,6 @@ const ItemSchema = z.object({
   dietary_tags: z.string().optional(),
   allergens: z.string().optional(),
   is_chef_recommendation: z.coerce.boolean().optional(),
-  prep_time_minutes: z.coerce.number().int().min(0).optional().nullable(),
-  calories: z.coerce.number().int().min(0).optional().nullable(),
 });
 
 export type MenuItemFormState = {
@@ -146,8 +144,6 @@ export async function createMenuItem(
     dietary_tags,
     allergens,
     is_chef_recommendation: parsed.data.is_chef_recommendation ?? false,
-    prep_time_minutes: parsed.data.prep_time_minutes ?? null,
-    calories: parsed.data.calories ?? null,
     position,
   });
 
@@ -196,8 +192,6 @@ export async function updateMenuItem(
       dietary_tags,
       allergens,
       is_chef_recommendation: parsed.data.is_chef_recommendation ?? false,
-      prep_time_minutes: parsed.data.prep_time_minutes ?? null,
-      calories: parsed.data.calories ?? null,
     })
     .eq("id", itemId);
 

@@ -27,7 +27,6 @@ export default async function DashboardMenuPage() {
       <h1 className="text-xl font-bold">Menú</h1>
       <MenuEditor
         restaurantId={restaurant.id}
-        defaultCurrency={restaurant.default_currency}
         categories={categories ?? []}
         items={items ?? []}
       />

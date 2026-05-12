@@ -48,7 +48,6 @@ export default async function MenuEditorPage({
 
       <MenuEditor
         restaurantId={id}
-        defaultCurrency={restaurant.default_currency}
         categories={categories ?? []}
         items={items ?? []}
       />

@@ -50,8 +50,13 @@ export interface Restaurant {
   splash_enabled: boolean;
   tagline: string | null;
   hours: string | null;
+  card_stroke: string | null;
+  font_family: string | null;
   splash_bg_type: "color" | "gradient" | "pattern" | "image";
   splash_pattern_id: "dots" | "lines" | "grid" | "waves" | "diagonal";
+  splash_color: string;
+  splash_gradient_from: string;
+  splash_gradient_to: string;
   created_at: string;
   updated_at: string;
 }
@@ -95,8 +100,6 @@ export interface MenuItem {
   allergens: string[];
   is_available: boolean;
   is_chef_recommendation: boolean;
-  prep_time_minutes: number | null;
-  calories: number | null;
   position: number;
   created_at: string;
   updated_at: string;

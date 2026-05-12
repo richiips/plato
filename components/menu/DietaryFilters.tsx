@@ -28,7 +28,7 @@ export function DietaryFilters({ activeFilters, onToggle }: DietaryFiltersProps)
             key={tag}
             onClick={() => onToggle(tag)}
             className={cn(
-              "flex items-center gap-1.5 rounded-full border px-3 py-1 text-xs font-medium transition-colors",
+              "flex items-center gap-1.5 rounded-full border px-3 py-2 text-xs font-medium transition-colors",
               isActive
                 ? "border-transparent text-white"
                 : "border-border bg-background text-muted-foreground hover:border-muted-foreground",

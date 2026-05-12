@@ -31,7 +31,7 @@ export function CategoryTabs({ categories, activeId, onSelect, language }: Categ
             key={cat.id}
             onClick={() => onSelect(isActive ? null : cat.id)}
             className={cn(
-              "shrink-0 rounded-full px-3.5 py-1.5 text-sm font-medium transition-colors",
+              "shrink-0 rounded-full px-3.5 py-2.5 text-sm font-medium transition-colors",
               isActive
                 ? "text-white"
                 : "bg-secondary text-muted-foreground hover:bg-muted hover:text-foreground",

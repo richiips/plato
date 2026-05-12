@@ -62,7 +62,7 @@ export function MenuHeader({ restaurant }: MenuHeaderProps) {
         </div>
 
         {/* Info row */}
-        <div className="mt-4 flex flex-wrap gap-x-4 gap-y-2 border-b border-border pb-4 text-sm text-muted-foreground">
+        <div className="mt-4 flex flex-wrap gap-x-4 gap-y-3 border-b border-border pb-4 text-sm text-muted-foreground">
           {restaurant.address && (
             <a
               href={restaurant.google_maps_url ?? undefined}

@@ -4,7 +4,7 @@ import type { AnalyticsEvent } from "@/types/database";
 
 const EVENT_LABELS: Record<string, string> = {
   page_view: "Vista de carta",
-  item_view: "Vista de plato",
+  item_view: "Vista de ítem",
   filter_applied: "Filtro aplicado",
   language_changed: "Idioma cambiado",
 };

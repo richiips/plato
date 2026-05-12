@@ -1,37 +1,49 @@
+import type { Metadata } from "next";
 import Link from "next/link";
-import {
-  Store,
-  ChefHat,
-  Paintbrush,
-  QrCode,
-  Check,
-  Phone,
-  Coffee,
-  Wine,
-  Utensils,
-  ArrowRight,
-} from "lucide-react";
+import { Store, ChefHat, Palette, QrCode, Utensils, Coffee, Wine, ArrowRight } from "lucide-react";
 import { DemoSheet } from "@/components/landing/DemoSheet";
 import { PortfolioCarousel } from "@/components/landing/PortfolioCarousel";
 
-/* ─── Nav ────────────────────────────────────────────────── */
+export const metadata: Metadata = {
+  title: "Teist — Carta digital para restaurantes boutique",
+  description:
+    "Cartas digitales diseñadas a medida para restaurantes con identidad de marca. Analytics, splash screen inmersiva y actualización en tiempo real.",
+};
+
+/* ─── Navbar ─────────────────────────────────────────────── */
 function Navbar() {
   return (
-    <header className="fixed inset-x-0 top-0 z-50 border-b border-white/10 bg-zinc-950/80 backdrop-blur-md">
+    <header
+      className="fixed inset-x-0 top-0 z-50 border-b border-[#0A0A0A]/10 bg-[#FAFAF7]"
+    >
       <div className="mx-auto flex h-14 max-w-6xl items-center justify-between px-4">
-        <span className="text-sm font-bold tracking-tight text-white">carta·digital</span>
+        <span
+          style={{ fontFamily: "var(--font-space-grotesk)" }}
+          className="text-lg font-bold text-[#0A0A0A]"
+        >
+          Teist
+        </span>
         <nav className="flex items-center gap-6">
-          <Link href="#como-funciona" className="hidden text-sm text-zinc-400 hover:text-white sm:block">
+          <Link
+            href="#como-funciona"
+            style={{ fontFamily: "var(--font-inter)" }}
+            className="hidden text-sm text-[#6B6B6B] hover:text-[#0A0A0A] sm:block"
+          >
             Cómo funciona
           </Link>
-          <Link href="#precios" className="hidden text-sm text-zinc-400 hover:text-white sm:block">
+          <Link
+            href="#precios"
+            style={{ fontFamily: "var(--font-inter)" }}
+            className="hidden text-sm text-[#6B6B6B] hover:text-[#0A0A0A] sm:block"
+          >
             Precios
           </Link>
           <Link
             href="/login"
-            className="rounded-full bg-white px-4 py-1.5 text-sm font-semibold text-zinc-900 hover:bg-zinc-100"
+            style={{ fontFamily: "var(--font-inter)" }}
+            className="rounded-lg border-2 border-[#0A0A0A] bg-[#D4F000] px-4 py-1.5 text-sm font-semibold text-[#0A0A0A] shadow-[4px_4px_0px_#0A0A0A] transition-all duration-100 hover:-translate-x-0.5 hover:-translate-y-0.5 hover:shadow-[6px_6px_0px_#0A0A0A] active:translate-x-1 active:translate-y-1 active:shadow-none"
           >
-            Ingresar
+            Solicitar acceso →
           </Link>
         </nav>
       </div>
@@ -39,138 +51,110 @@ function Navbar() {
   );
 }
 
-/* ─── Hero ───────────────────────────────────────────────── */
+/* ─── Phone splash mockup ────────────────────────────────── */
 function PhoneMockup() {
-  const items = [
-    { name: "Burrata con higos", price: "$12.000", tag: "Nuevo" },
-    { name: "Risotto al funghi", price: "$19.000", tag: null },
-    { name: "Lomo de res", price: "$26.000", tag: "Chef" },
-  ];
-
   return (
     <div
-      className="relative mx-auto w-[230px]"
+      className="relative mx-auto w-[220px]"
       style={{
-        transform: "perspective(900px) rotateY(-8deg) rotateX(3deg)",
-        filter: "drop-shadow(0 32px 48px rgba(0,0,0,0.6))",
+        filter: "drop-shadow(6px 6px 0px #0A0A0A)",
       }}
     >
       {/* Frame */}
-      <div className="rounded-[2.5rem] border-[7px] border-zinc-700 bg-zinc-800">
+      <div className="rounded-[2.5rem] border-[7px] border-[#0A0A0A] bg-[#0A0A0A]">
         {/* Notch */}
-        <div className="mx-auto h-5 w-20 rounded-b-xl bg-zinc-700" />
+        <div className="mx-auto h-5 w-20 rounded-b-xl bg-[#1A1A1A]" />
 
-        {/* Screen */}
-        <div className="overflow-hidden rounded-[1.6rem] bg-white">
-          {/* Restaurant header */}
-          <div className="flex h-24 items-end bg-zinc-900 px-4 pb-3">
-            <div className="flex h-10 w-10 items-center justify-center rounded-full bg-white text-base font-bold text-zinc-900">
+        {/* Screen — splash */}
+        <div className="flex flex-col items-center justify-center overflow-hidden rounded-[1.8rem] bg-[#111111]" style={{ minHeight: 390 }}>
+          {/* Background image placeholder */}
+          <div className="absolute inset-0 rounded-[1.8rem] bg-gradient-to-b from-[#1A1A1A] to-[#0A0A0A]" />
+
+          {/* Content */}
+          <div className="relative flex flex-col items-center gap-4 px-6 text-center">
+            {/* Logo circle */}
+            <div className="flex h-14 w-14 items-center justify-center rounded-full border-2 border-white/20 bg-white text-xl font-bold text-[#0A0A0A]"
+              style={{ fontFamily: "var(--font-space-grotesk)" }}
+            >
               B
             </div>
-            <div className="ml-2.5">
-              <p className="text-sm font-bold text-white">Bellini Bistro</p>
-              <p className="text-[10px] text-zinc-400">Cocina italiana de autor</p>
+            <div>
+              <p
+                className="text-base font-bold text-white"
+                style={{ fontFamily: "var(--font-space-grotesk)" }}
+              >
+                Boragó
+              </p>
+              <p className="mt-0.5 text-[11px] text-white/50"
+                style={{ fontFamily: "var(--font-inter)" }}
+              >
+                Cocina de raíces chilenas
+              </p>
             </div>
-          </div>
-
-          {/* Tabs */}
-          <div className="flex gap-2 overflow-x-auto px-3 py-2.5">
-            {["Entradas", "Pastas", "Postres"].map((t, i) => (
-              <span
-                key={t}
-                className={`shrink-0 rounded-full px-2.5 py-1 text-[10px] font-semibold ${
-                  i === 0
-                    ? "bg-zinc-900 text-white"
-                    : "bg-zinc-100 text-zinc-500"
-                }`}
-              >
-                {t}
-              </span>
-            ))}
-          </div>
-
-          {/* Items */}
-          <div className="space-y-2 px-3 pb-4">
-            {items.map(({ name, price, tag }) => (
-              <div
-                key={name}
-                className="flex items-center justify-between rounded-xl border border-zinc-100 px-2.5 py-2"
-              >
-                <div>
-                  <div className="flex items-center gap-1.5">
-                    <p className="text-[11px] font-semibold text-zinc-900">{name}</p>
-                    {tag && (
-                      <span className="rounded-full bg-zinc-900 px-1.5 py-px text-[8px] font-medium text-white">
-                        {tag}
-                      </span>
-                    )}
-                  </div>
-                  <p className="mt-0.5 text-[9px] text-zinc-400">Descripción breve del plato</p>
-                </div>
-                <span className="ml-2 shrink-0 text-[11px] font-bold text-zinc-900">{price}</span>
-              </div>
-            ))}
+            <button
+              className="mt-2 rounded-lg border-2 border-white/20 bg-white/10 px-5 py-2 text-xs font-semibold text-white backdrop-blur-sm"
+              style={{ fontFamily: "var(--font-inter)" }}
+              tabIndex={-1}
+            >
+              Ver carta
+            </button>
           </div>
         </div>
 
         {/* Home bar */}
-        <div className="mx-auto my-2 h-1 w-16 rounded-full bg-zinc-600" />
+        <div className="mx-auto my-2 h-1 w-16 rounded-full bg-[#333]" />
       </div>
     </div>
   );
 }
 
+/* ─── Hero ───────────────────────────────────────────────── */
 function HeroSection() {
   return (
-    <section className="relative overflow-hidden bg-zinc-950 pb-24 pt-32">
-      {/* Subtle grid bg */}
-      <div
-        aria-hidden
-        className="absolute inset-0 opacity-[0.03]"
-        style={{
-          backgroundImage:
-            "linear-gradient(#fff 1px, transparent 1px), linear-gradient(90deg, #fff 1px, transparent 1px)",
-          backgroundSize: "48px 48px",
-        }}
-      />
-
-      <div className="relative mx-auto max-w-6xl px-4">
-        <div className="grid items-center gap-16 lg:grid-cols-2">
+    <section className="relative overflow-hidden bg-[#FAFAF7] pb-16 pt-24 sm:pb-24 sm:pt-32">
+      <div className="mx-auto max-w-6xl px-4">
+        <div className="grid items-center gap-10 lg:grid-cols-2 lg:gap-16">
           {/* Copy */}
           <div>
-            <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-1.5 text-xs text-zinc-400">
-              <span className="h-1.5 w-1.5 rounded-full bg-green-400" />
-              Sin apps · Sin impresión · 100% digital
+            <div
+              className="mb-5 inline-flex items-center gap-2 rounded-lg border-2 border-[#0A0A0A] bg-[#FAFAF7] px-3 py-1.5 text-xs font-semibold text-[#0A0A0A]"
+              style={{ fontFamily: "var(--font-inter)" }}
+            >
+              <span className="h-1.5 w-1.5 rounded-full bg-[#D4F000]" />
+              Para restaurantes con criterio
             </div>
 
-            <h1 className="text-4xl font-bold leading-[1.1] tracking-tight text-white sm:text-5xl lg:text-6xl">
-              La carta digital que merece tu{" "}
-              <span className="text-zinc-400">restaurante</span>
+            <h1
+              className="text-3xl font-bold leading-[1.1] tracking-tight text-[#0A0A0A] sm:text-5xl lg:text-6xl"
+              style={{ fontFamily: "var(--font-space-grotesk)" }}
+            >
+              Tu restaurante tiene identidad.{" "}
+              <span className="text-[#6B6B6B]">Tu carta también.</span>
             </h1>
 
-            <p className="mt-6 text-lg leading-relaxed text-zinc-400">
-              Crea tu menú online con tu identidad visual, compártelo con un QR
-              y actualízalo en tiempo real. Sin comisiones, sin apps.
+            <p
+              className="mt-6 text-lg leading-relaxed text-[#6B6B6B]"
+              style={{ fontFamily: "var(--font-inter)" }}
+            >
+              Diseñamos cartas digitales que se ven como extensión real de tu
+              marca. Con analytics de lo que más pide tu clientela.
             </p>
 
-            <div className="mt-8 flex flex-wrap items-center gap-3">
+            <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center">
               <Link
                 href="/login"
-                className="inline-flex items-center gap-2 rounded-full bg-white px-6 py-3 text-sm font-semibold text-zinc-900 transition hover:bg-zinc-100"
+                className="flex items-center justify-center gap-2 rounded-lg border-2 border-[#0A0A0A] bg-[#D4F000] px-6 py-3 text-sm font-semibold text-[#0A0A0A] shadow-[4px_4px_0px_#0A0A0A] transition-all duration-100 hover:-translate-x-0.5 hover:-translate-y-0.5 hover:shadow-[6px_6px_0px_#0A0A0A] active:translate-x-1 active:translate-y-1 active:shadow-none sm:inline-flex"
+                style={{ fontFamily: "var(--font-inter)" }}
               >
-                Empieza gratis
+                Solicitar acceso
                 <ArrowRight className="h-4 w-4" />
               </Link>
               <DemoSheet slug="demo" />
             </div>
-
-            <p className="mt-4 text-xs text-zinc-600">
-              Sin tarjeta de crédito · Configuración en 10 minutos
-            </p>
           </div>
 
-          {/* Visual */}
-          <div className="flex justify-center lg:justify-end">
+          {/* Visual — hidden on mobile to save vertical space */}
+          <div className="hidden justify-center lg:flex lg:justify-end">
             <PhoneMockup />
           </div>
         </div>
@@ -184,55 +168,61 @@ function ForWhomSection() {
   const cards = [
     {
       Icon: Utensils,
-      title: "Fine dining & bistros",
-      desc: "Menú de degustación con maridaje, precios dinámicos y nombres de platos en múltiples idiomas para turistas internacionales.",
-      traits: ["Multilingüe", "Fotos HD por plato", "Alérgenos detallados"],
+      title: "Fine dining & bistrós",
+      desc: "Menús de degustación, maridajes y nombres de platos que comunican cada detalle. La carta como pieza de diseño.",
     },
     {
       Icon: Coffee,
-      title: "Cafeterías & brunch",
-      desc: "Carta de specialty coffee, bowls y tostadas que cambia por temporada. Actualiza precios al instante desde el móvil.",
-      traits: ["Actualización en tiempo real", "Toggle sold-out", "Filtro vegano/sin gluten"],
+      title: "Cafeterías de especialidad",
+      desc: "Carta de specialty coffee, brunch y temporada. Actualiza precios al instante. Tu marca visible en cada detalle.",
     },
     {
       Icon: Wine,
-      title: "Bares & coctelerías",
-      desc: "Carta de cócteles con descripción de ingredientes, maridajes y disponibilidad de temporada. Experiencia premium para el cliente.",
-      traits: ["Diseño personalizado", "Filtros por espirituosa", "Carta de vinos integrada"],
+      title: "Bares de cóctel de autor",
+      desc: "Ingredientes, historia del trago y disponibilidad de temporada. Experiencia premium antes del primer sorbo.",
     },
   ];
 
   return (
-    <section className="bg-white py-24">
+    <section className="bg-white py-16 sm:py-24">
       <div className="mx-auto max-w-6xl px-4">
-        <div className="mb-14 text-center">
-          <h2 className="text-3xl font-bold tracking-tight text-zinc-900 sm:text-4xl">
-            Para restaurantes con criterio
+        <div className="mb-10 text-center sm:mb-14">
+          <h2
+            className="text-3xl font-bold tracking-tight text-[#0A0A0A] sm:text-4xl"
+            style={{ fontFamily: "var(--font-space-grotesk)" }}
+          >
+            No es para todos.
           </h2>
-          <p className="mt-3 text-zinc-500">
-            No es para todos. Es para quienes cuidan cada detalle.
+          <p
+            className="mt-3 text-[#6B6B6B]"
+            style={{ fontFamily: "var(--font-inter)" }}
+          >
+            Es para quienes ya cuidan cada detalle de su marca.
           </p>
         </div>
 
         <div className="grid gap-6 sm:grid-cols-3">
-          {cards.map(({ Icon, title, desc, traits }) => (
+          {cards.map(({ Icon, title, desc }) => (
             <div
               key={title}
-              className="group rounded-2xl border border-zinc-100 bg-white p-6 shadow-sm transition hover:border-zinc-300 hover:shadow-md"
+              className="rounded-lg border-2 border-[#0A0A0A] bg-white p-6"
+              style={{ boxShadow: "4px 4px 0px #0A0A0A" }}
             >
-              <div className="mb-4 flex h-10 w-10 items-center justify-center rounded-xl bg-zinc-900 text-white">
+              <div className="mb-4 flex h-10 w-10 items-center justify-center bg-[#0A0A0A] text-white">
                 <Icon className="h-5 w-5" />
               </div>
-              <h3 className="mb-2 text-base font-semibold text-zinc-900">{title}</h3>
-              <p className="mb-4 text-sm leading-relaxed text-zinc-500">{desc}</p>
-              <ul className="space-y-1.5">
-                {traits.map((t) => (
-                  <li key={t} className="flex items-center gap-2 text-xs text-zinc-500">
-                    <Check className="h-3.5 w-3.5 shrink-0 text-green-500" />
-                    {t}
-                  </li>
-                ))}
-              </ul>
+              <h3
+                className="mb-2 text-base font-bold text-[#0A0A0A]"
+                style={{ fontFamily: "var(--font-space-grotesk)" }}
+              >
+                {title}
+              </h3>
+              <p
+                className="text-sm leading-relaxed text-[#6B6B6B]"
+                style={{ fontFamily: "var(--font-inter)" }}
+              >
+                {desc}
+              </p>
             </div>
           ))}
         </div>
@@ -247,34 +237,37 @@ function HowItWorksSection() {
     {
       Icon: Store,
       n: "01",
-      title: "Crea tu restaurante",
-      desc: "Rellena los datos básicos: nombre, slug, descripción y datos de contacto. Listo en 5 minutos.",
+      title: "Nos contactas",
+      desc: "Conversamos sobre tu restaurante, tu identidad y qué hace única tu carta.",
     },
     {
       Icon: ChefHat,
       n: "02",
-      title: "Sube tu menú",
-      desc: "Agrega categorías y platos con fotos, precios, etiquetas dietéticas y modificadores.",
+      title: "Cargamos tu menú",
+      desc: "Subimos categorías, platos, precios y fotos. Tú no tienes que aprender nada.",
     },
     {
-      Icon: Paintbrush,
+      Icon: Palette,
       n: "03",
-      title: "Personaliza el diseño",
-      desc: "Elige tus colores corporativos y tipografía. El preview en vivo muestra el resultado al instante.",
+      title: "Elegimos juntos el estilo",
+      desc: "Cuatro sistemas visuales distintos. Escogemos el que mejor represente tu marca.",
     },
     {
       Icon: QrCode,
       n: "04",
-      title: "Comparte el QR",
-      desc: "Descarga tu QR y ponlo en las mesas, la entrada o tu perfil de Instagram.",
+      title: "Tu carta está online",
+      desc: "QR listo para mesas, entrada e Instagram. Actualizaciones en tiempo real desde ese día.",
     },
   ];
 
   return (
-    <section id="como-funciona" className="bg-zinc-50 py-24">
+    <section id="como-funciona" className="bg-[#FAFAF7] py-16 sm:py-24">
       <div className="mx-auto max-w-6xl px-4">
-        <div className="mb-14 text-center">
-          <h2 className="text-3xl font-bold tracking-tight text-zinc-900 sm:text-4xl">
+        <div className="mb-10 text-center sm:mb-14">
+          <h2
+            className="text-3xl font-bold tracking-tight text-[#0A0A0A] sm:text-4xl"
+            style={{ fontFamily: "var(--font-space-grotesk)" }}
+          >
             En 4 pasos, tu carta está online
           </h2>
         </div>
@@ -283,17 +276,34 @@ function HowItWorksSection() {
           {/* Connector line (desktop) */}
           <div
             aria-hidden
-            className="absolute left-[12.5%] right-[12.5%] top-5 hidden h-px bg-zinc-200 lg:block"
+            className="absolute left-[12.5%] right-[12.5%] top-5 hidden h-0.5 bg-[#0A0A0A] lg:block"
           />
 
           {steps.map(({ Icon, n, title, desc }) => (
             <div key={n} className="relative flex flex-col items-center text-center">
-              <div className="relative z-10 mb-5 flex h-10 w-10 items-center justify-center rounded-full border-2 border-zinc-900 bg-white">
-                <Icon className="h-4 w-4 text-zinc-900" />
+              <div className="relative z-10 mb-5 flex h-10 w-10 items-center justify-center border-2 border-[#0A0A0A] bg-white"
+                style={{ boxShadow: "2px 2px 0px #0A0A0A" }}
+              >
+                <Icon className="h-4 w-4 text-[#0A0A0A]" />
               </div>
-              <span className="mb-1 font-mono text-xs text-zinc-400">{n}</span>
-              <h3 className="mb-2 text-sm font-semibold text-zinc-900">{title}</h3>
-              <p className="text-xs leading-relaxed text-zinc-500">{desc}</p>
+              <span
+                className="mb-1 text-3xl font-bold text-[#0A0A0A]"
+                style={{ fontFamily: "var(--font-space-grotesk)" }}
+              >
+                {n}
+              </span>
+              <h3
+                className="mb-2 text-sm font-bold text-[#0A0A0A]"
+                style={{ fontFamily: "var(--font-space-grotesk)" }}
+              >
+                {title}
+              </h3>
+              <p
+                className="text-xs leading-relaxed text-[#6B6B6B]"
+                style={{ fontFamily: "var(--font-inter)" }}
+              >
+                {desc}
+              </p>
             </div>
           ))}
         </div>
@@ -305,37 +315,45 @@ function HowItWorksSection() {
 /* ─── Demo ───────────────────────────────────────────────── */
 function DemoSection() {
   return (
-    <section className="bg-zinc-950 py-24">
+    <section className="bg-[#0A0A0A] py-16 sm:py-24">
       <div className="mx-auto max-w-2xl px-4 text-center">
-        <p className="mb-3 font-mono text-xs text-zinc-500">DEMO EN VIVO</p>
-        <h2 className="mb-4 text-3xl font-bold text-white sm:text-4xl">
-          Abre la carta como lo hará tu cliente
+        <h2
+          className="mb-4 text-3xl font-bold text-white sm:text-4xl"
+          style={{ fontFamily: "var(--font-space-grotesk)" }}
+        >
+          Abre una carta real
         </h2>
-        <p className="mb-10 text-zinc-400">
-          Escanea el QR, toca las categorías, filtra por dieta. Exactamente la experiencia
-          que tendrá quien se siente a tu mesa.
+        <p
+          className="mb-10 text-[#6B6B6B]"
+          style={{ fontFamily: "var(--font-inter)" }}
+        >
+          Escanea, navega, filtra. Exactamente lo que verá quien se siente en tu
+          mesa esta noche.
         </p>
         <DemoSheet slug="demo" />
-        <p className="mt-4 text-xs text-zinc-600">
-          La carta de demostración se abre directamente en esta ventana.
-        </p>
       </div>
     </section>
   );
 }
 
-/* ─── Portafolio ─────────────────────────────────────────── */
+/* ─── Portfolio ──────────────────────────────────────────── */
 function PortfolioSection() {
   return (
-    <section className="bg-white py-24">
+    <section className="bg-white py-16 sm:py-24">
       <div className="mx-auto max-w-6xl px-4">
-        <div className="mb-14 flex items-end justify-between">
-          <div>
-            <h2 className="text-3xl font-bold tracking-tight text-zinc-900 sm:text-4xl">
-              Cartas que ya están online
-            </h2>
-            <p className="mt-2 text-zinc-500">Ejemplos de lo que puedes crear.</p>
-          </div>
+        <div className="mb-10 sm:mb-14">
+          <h2
+            className="text-3xl font-bold tracking-tight text-[#0A0A0A] sm:text-4xl"
+            style={{ fontFamily: "var(--font-space-grotesk)" }}
+          >
+            Cartas que ya están online
+          </h2>
+          <p
+            className="mt-2 text-[#6B6B6B]"
+            style={{ fontFamily: "var(--font-inter)" }}
+          >
+            Cada una diseñada a medida. Ninguna parece template.
+          </p>
         </div>
         <PortfolioCarousel />
       </div>
@@ -344,76 +362,138 @@ function PortfolioSection() {
 }
 
 /* ─── Pricing ────────────────────────────────────────────── */
-const FEATURES = [
-  "Carta digital con QR único",
-  "Editor de menú con drag & drop",
-  "Diseño personalizado (colores, tipografía)",
-  "Imágenes optimizadas con Cloudflare",
-  "Soporte multilingüe (ES / EN / PT / FR)",
-  "Estadísticas de visitas",
-  "Actualización en tiempo real",
-  "Sin comisiones por pedido",
-];
-
 function PricingSection() {
+  const setupItems = [
+    "Diseño de carta con tu identidad de marca",
+    "Configuración completa del sistema",
+    "Carga inicial de tu menú",
+    "Onboarding personalizado",
+  ];
+
+  const platformItems = [
+    "Actualizaciones ilimitadas",
+    "Analytics de carta",
+    "QR descargable",
+    "Soporte directo con Richi",
+  ];
+
   return (
-    <section id="precios" className="bg-zinc-50 py-24">
+    <section id="precios" className="bg-[#FAFAF7] py-16 sm:py-24">
       <div className="mx-auto max-w-6xl px-4">
-        <div className="mb-14 text-center">
-          <h2 className="text-3xl font-bold tracking-tight text-zinc-900 sm:text-4xl">
-            Un precio. Todo incluido.
+        <div className="mb-10 text-center sm:mb-14">
+          <h2
+            className="text-3xl font-bold tracking-tight text-[#0A0A0A] sm:text-4xl"
+            style={{ fontFamily: "var(--font-space-grotesk)" }}
+          >
+            Inversión, no suscripción genérica.
           </h2>
-          <p className="mt-3 text-zinc-500">Sin sorpresas, sin letra chica.</p>
         </div>
 
-        <div className="mx-auto max-w-sm">
-          <div className="relative overflow-hidden rounded-2xl border-2 border-zinc-900 bg-white p-8 shadow-xl">
-            {/* Badge */}
-            <div className="absolute right-4 top-4 rounded-full bg-zinc-900 px-2.5 py-1 text-[10px] font-semibold text-white">
-              LANZAMIENTO
-            </div>
-
-            <p className="text-sm font-medium text-zinc-500">Plan Pro</p>
+        <div className="mx-auto grid max-w-3xl gap-6 sm:grid-cols-2">
+          {/* Card 1 — Setup */}
+          <div
+            className="rounded-lg border-2 border-[#0A0A0A] bg-white p-5 sm:p-8"
+            style={{ boxShadow: "4px 4px 0px #0A0A0A" }}
+          >
+            <p
+              className="text-sm font-semibold text-[#6B6B6B]"
+              style={{ fontFamily: "var(--font-inter)" }}
+            >
+              Diseño a medida
+            </p>
             <div className="mt-2 flex items-baseline gap-1">
-              <span className="text-5xl font-bold text-zinc-900">$29</span>
-              <span className="text-zinc-500">USD / mes</span>
+              <span
+                className="text-2xl font-bold text-[#0A0A0A] sm:text-4xl"
+                style={{ fontFamily: "var(--font-space-grotesk)" }}
+              >
+                desde $500.000
+              </span>
             </div>
-            <p className="mt-1 text-xs text-zinc-400">por restaurante · cancela cuando quieras</p>
-
-            <ul className="mt-8 space-y-3">
-              {FEATURES.map((f) => (
-                <li key={f} className="flex items-start gap-2.5 text-sm text-zinc-600">
-                  <Check className="mt-0.5 h-4 w-4 shrink-0 text-green-500" />
-                  {f}
+            <p
+              className="mt-1 text-sm text-[#6B6B6B]"
+              style={{ fontFamily: "var(--font-inter)" }}
+            >
+              CLP
+            </p>
+            <ul className="mt-6 space-y-2.5">
+              {setupItems.map((item) => (
+                <li
+                  key={item}
+                  className="flex items-start gap-2 text-sm text-[#0A0A0A]"
+                  style={{ fontFamily: "var(--font-inter)" }}
+                >
+                  <span className="mt-1 h-1.5 w-1.5 shrink-0 rounded-full bg-[#0A0A0A]" />
+                  {item}
                 </li>
               ))}
             </ul>
-
-            <div className="mt-8 space-y-3">
-              <a
-                href="mailto:hola@carta.digital?subject=Quiero%20agendar%20una%20llamada"
-                className="flex w-full items-center justify-center gap-2 rounded-full bg-zinc-900 py-3 text-sm font-semibold text-white transition hover:bg-zinc-700"
-              >
-                <Phone className="h-4 w-4" />
-                Agenda una llamada
-              </a>
-              <Link
-                href="/login"
-                className="flex w-full items-center justify-center rounded-full border border-zinc-200 py-3 text-sm font-semibold text-zinc-700 transition hover:border-zinc-400"
-              >
-                Probar gratis 14 días
-              </Link>
-            </div>
-
-            <p className="mt-4 text-center text-xs text-zinc-400">
-              Sin tarjeta de crédito para el trial
-            </p>
           </div>
 
-          {/* Social proof */}
-          <p className="mt-6 text-center text-sm text-zinc-500">
-            ¿Varios locales? Contacta para precios de agencia.
-          </p>
+          {/* Card 2 — Platform */}
+          <div
+            className="rounded-lg border-2 border-[#0A0A0A] bg-[#D4F000] p-5 sm:p-8"
+            style={{ boxShadow: "4px 4px 0px #0A0A0A" }}
+          >
+            <p
+              className="text-sm font-semibold text-[#0A0A0A]/60"
+              style={{ fontFamily: "var(--font-inter)" }}
+            >
+              Plataforma + soporte
+            </p>
+            <div className="mt-2 flex items-baseline gap-1">
+              <span
+                className="text-4xl font-bold text-[#0A0A0A]"
+                style={{ fontFamily: "var(--font-space-grotesk)" }}
+              >
+                desde $80.000
+              </span>
+            </div>
+            <p
+              className="mt-1 text-sm text-[#0A0A0A]/60"
+              style={{ fontFamily: "var(--font-inter)" }}
+            >
+              CLP / mes
+            </p>
+            <ul className="mt-6 space-y-2.5">
+              {platformItems.map((item) => (
+                <li
+                  key={item}
+                  className="flex items-start gap-2 text-sm text-[#0A0A0A]"
+                  style={{ fontFamily: "var(--font-inter)" }}
+                >
+                  <span className="mt-1 h-1.5 w-1.5 shrink-0 rounded-full bg-[#0A0A0A]" />
+                  {item}
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+
+        {/* Founder note */}
+        <p
+          className="mx-auto mt-6 max-w-md text-center text-sm text-[#6B6B6B]"
+          style={{ fontFamily: "var(--font-inter)" }}
+        >
+          Los primeros 5 restaurantes acceden a precio especial. A cambio,
+          documentamos juntos la historia.
+        </p>
+
+        {/* CTAs */}
+        <div className="mt-8 flex flex-col items-stretch justify-center gap-3 sm:flex-row sm:items-center sm:gap-4">
+          <a
+            href="https://wa.me/56XXXXXXXXX?text=Hola%20Richi%2C%20me%20interesa%20Teist%20para%20mi%20restaurante"
+            className="flex items-center justify-center gap-2 rounded-lg border-2 border-[#0A0A0A] bg-[#0A0A0A] px-6 py-3 text-sm font-semibold text-white shadow-[4px_4px_0px_#333] transition-all duration-100 hover:-translate-x-0.5 hover:-translate-y-0.5 hover:shadow-[6px_6px_0px_#333] active:translate-x-1 active:translate-y-1 active:shadow-none sm:inline-flex"
+            style={{ fontFamily: "var(--font-inter)" }}
+          >
+            Conversemos →
+          </a>
+          <a
+            href="mailto:hola@teist.app"
+            className="flex items-center justify-center gap-2 rounded-lg border-2 border-[#0A0A0A] bg-[#FAFAF7] px-6 py-3 text-sm font-semibold text-[#0A0A0A] shadow-[4px_4px_0px_#0A0A0A] transition-all duration-100 hover:-translate-x-0.5 hover:-translate-y-0.5 hover:shadow-[6px_6px_0px_#0A0A0A] active:translate-x-1 active:translate-y-1 active:shadow-none sm:inline-flex"
+            style={{ fontFamily: "var(--font-inter)" }}
+          >
+            hola@teist.app
+          </a>
         </div>
       </div>
     </section>
@@ -423,13 +503,21 @@ function PricingSection() {
 /* ─── Footer ─────────────────────────────────────────────── */
 function Footer() {
   return (
-    <footer className="border-t border-zinc-100 bg-zinc-950 py-12">
+    <footer className="bg-[#0A0A0A] py-12">
       <div className="mx-auto max-w-6xl px-4">
-        <div className="flex flex-col items-center justify-between gap-6 sm:flex-row">
+        <div className="flex flex-col items-start justify-between gap-6 sm:flex-row sm:items-center">
           <div>
-            <span className="text-sm font-bold text-white">carta·digital</span>
-            <p className="mt-1 text-xs text-zinc-500">
-              La carta digital que merece tu restaurante.
+            <span
+              className="text-lg font-bold text-white"
+              style={{ fontFamily: "var(--font-space-grotesk)" }}
+            >
+              Teist
+            </span>
+            <p
+              className="mt-1 text-xs text-[#6B6B6B]"
+              style={{ fontFamily: "var(--font-inter)" }}
+            >
+              La carta que merece tu restaurante.
             </p>
           </div>
 
@@ -441,9 +529,10 @@ function Footer() {
               { label: "Ingresar", href: "/login" },
             ].map(({ label, href }) => (
               <Link
-                key={href}
+                key={label}
                 href={href}
-                className="text-xs text-zinc-500 transition hover:text-zinc-300"
+                className="text-xs text-[#6B6B6B] transition hover:text-white"
+                style={{ fontFamily: "var(--font-inter)" }}
               >
                 {label}
               </Link>
@@ -451,8 +540,11 @@ function Footer() {
           </nav>
         </div>
 
-        <div className="mt-8 border-t border-zinc-800 pt-6 text-center text-xs text-zinc-600">
-          © {new Date().getFullYear()} carta·digital. Construido con Next.js y Supabase.
+        <div
+          className="mt-8 border-t border-white/10 pt-6 text-center text-xs text-[#6B6B6B]"
+          style={{ fontFamily: "var(--font-inter)" }}
+        >
+          © 2026 Teist · teist.app
         </div>
       </div>
     </footer>

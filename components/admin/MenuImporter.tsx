@@ -16,7 +16,7 @@ const EXAMPLE_PROMPT = `Genera un menú para un restaurante en formato JSON estr
       "name": "Nombre de categoría",
       "items": [
         {
-          "name": "Nombre del plato",
+          "name": "Nombre del ítem",
           "description": "Descripción breve",
           "price": 9900
         }

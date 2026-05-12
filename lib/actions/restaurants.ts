@@ -122,13 +122,10 @@ export async function updateBranding(id: string, formData: FormData) {
   const supabase = await createClient();
 
   const data = {
-    primary_color: (formData.get("primary_color") as string) || "#000000",
-    secondary_color: (formData.get("secondary_color") as string) || "#FFFFFF",
     accent_color: (formData.get("accent_color") as string) || "#FF6B35",
-    font_heading: (formData.get("font_heading") as string) || "Inter",
-    font_body: (formData.get("font_body") as string) || "Inter",
+    font_family: (formData.get("font_family") as string) || null,
     logo_url: (formData.get("logo_url") as string) || null,
-    cover_image_url: (formData.get("cover_image_url") as string) || null,
+    card_stroke: (formData.get("card_stroke") as string) || null,
   };
 
   await (supabase as AnyClient).from("restaurants").update(data).eq("id", id);
@@ -153,7 +150,11 @@ export async function updateSplash(id: string, formData: FormData) {
     hours: (formData.get("hours") as string) || null,
     splash_bg_type: (formData.get("splash_bg_type") as string) || "gradient",
     splash_pattern_id: (formData.get("splash_pattern_id") as string) || "dots",
+    splash_color: (formData.get("splash_color") as string) || "#000000",
+    splash_gradient_from: (formData.get("splash_gradient_from") as string) || "#000000",
+    splash_gradient_to: (formData.get("splash_gradient_to") as string) || "#333333",
     cover_image_url: (formData.get("cover_image_url") as string) || null,
+    logo_url: (formData.get("logo_url") as string) || null,
   };
 
   await (supabase as AnyClient).from("restaurants").update(data).eq("id", id);
@@ -166,6 +167,18 @@ export async function updateSplash(id: string, formData: FormData) {
 
   if (restaurant) revalidatePath(`/r/${restaurant.slug}`);
   revalidatePath(`/admin/restaurants/${id}/splash`);
+}
+
+export async function deactivateRestaurant(id: string) {
+  await requireSuperAdmin();
+  const supabase = await createClient();
+
+  await (supabase as AnyClient)
+    .from("restaurants")
+    .update({ is_active: false, is_published: false })
+    .eq("id", id);
+
+  revalidatePath("/admin/restaurants");
 }
 
 export async function togglePublished(id: string, isPublished: boolean) {
