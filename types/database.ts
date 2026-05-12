@@ -52,6 +52,7 @@ export interface Restaurant {
   hours: string | null;
   card_stroke: string | null;
   font_family: string | null;
+  theme: 'noir' | 'blanco' | 'calido' | 'grafico' | null;
   splash_bg_type: "color" | "gradient" | "pattern" | "image";
   splash_pattern_id: "dots" | "lines" | "grid" | "waves" | "diagonal";
   splash_color: string;

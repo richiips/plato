@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef } from "react";
+import { useRef, useEffect } from "react";
 import { cn } from "@/lib/utils";
 import type { CategoryWithItems } from "@/app/(public)/r/[slug]/menu/page";
 import type { SupportedLanguage } from "@/types/menu";
@@ -11,10 +11,29 @@ interface CategoryTabsProps {
   activeId: string | null;
   onSelect: (id: string | null) => void;
   language: SupportedLanguage;
+  onScrollSpy?: (id: string) => void;
 }
 
-export function CategoryTabs({ categories, activeId, onSelect, language }: CategoryTabsProps) {
+export function CategoryTabs({
+  categories,
+  activeId,
+  onSelect,
+  language,
+  onScrollSpy: _onScrollSpy,
+}: CategoryTabsProps) {
   const scrollRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (!activeId || !scrollRef.current) return;
+    const activeBtn = scrollRef.current.querySelector(`[data-cat-id="${activeId}"]`);
+    if (activeBtn) {
+      (activeBtn as HTMLElement).scrollIntoView({
+        behavior: "smooth",
+        block: "nearest",
+        inline: "center",
+      });
+    }
+  }, [activeId]);
 
   if (categories.length <= 1) return null;
 
@@ -29,9 +48,10 @@ export function CategoryTabs({ categories, activeId, onSelect, language }: Categ
         return (
           <button
             key={cat.id}
+            data-cat-id={cat.id}
             onClick={() => onSelect(isActive ? null : cat.id)}
             className={cn(
-              "shrink-0 rounded-full px-3.5 py-2.5 text-sm font-medium transition-colors",
+              "shrink-0 rounded-full px-3.5 py-2 text-sm font-medium transition-colors",
               isActive
                 ? "text-white"
                 : "bg-secondary text-muted-foreground hover:bg-muted hover:text-foreground",

@@ -73,9 +73,10 @@ function buildFontUrl(heading: string, body: string): string {
   return families ? `https://fonts.googleapis.com/css2?${families}&display=swap` : "";
 }
 
-function buildCatalogFontUrl(fontId: string | null): string {
-  if (!fontId) return "";
-  const entry = FONT_CATALOG[fontId];
+function buildCatalogFontUrl(fontId: string | null, theme?: string | null): string {
+  const resolvedId = !fontId && theme === "noir" ? "cormorant-garamond" : fontId;
+  if (!resolvedId) return "";
+  const entry = FONT_CATALOG[resolvedId];
   if (!entry) return "";
   return `https://fonts.googleapis.com/css2?family=${entry.googleName}:wght@400;500;600;700&display=swap`;
 }
@@ -105,14 +106,17 @@ export default async function CartaPublicaPage({
     }))
     .filter((c) => c.items.length > 0);
 
+  const theme = restaurant.theme ?? null;
   const fontUrl = buildFontUrl(restaurant.font_heading, restaurant.font_body);
-  const catalogFontUrl = buildCatalogFontUrl(restaurant.font_family ?? null);
+  const catalogFontUrl = buildCatalogFontUrl(restaurant.font_family ?? null, theme);
   const cardStrokeOverride = resolveCardStroke(restaurant.card_stroke ?? null);
 
-  // Resolved heading font: catalog font takes precedence, falls back to font_heading column
+  // Resolved heading font: catalog font takes precedence, falls back to noir default, then font_heading column
   const resolvedFontHeading = restaurant.font_family
     ? (FONT_CATALOG[restaurant.font_family]?.googleName.replace(/\+/g, " ") ?? restaurant.font_heading)
-    : restaurant.font_heading;
+    : theme === "noir"
+      ? "Cormorant Garamond"
+      : restaurant.font_heading;
 
   const cssVars = [
     `:root {`,
@@ -132,7 +136,11 @@ export default async function CartaPublicaPage({
       {/* eslint-disable-next-line react/no-danger */}
       <style dangerouslySetInnerHTML={{ __html: cssVars }} />
 
-      <div className="min-h-screen bg-background" style={{ fontFamily: "var(--menu-font-body)" }}>
+      <div
+        className="min-h-screen bg-background"
+        data-menu-theme={theme ?? undefined}
+        style={{ fontFamily: "var(--menu-font-body)" }}
+      >
         <MenuHeader restaurant={restaurant} />
 
         <main className="mx-auto max-w-3xl px-4 pb-16">

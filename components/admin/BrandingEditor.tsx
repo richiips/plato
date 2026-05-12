@@ -71,13 +71,33 @@ function SubmitButton() {
   );
 }
 
-// ── Component ───────────────────────────────────────────────────────────────
-
 interface BrandingEditorProps {
   restaurant: Restaurant;
 }
 
+// ── Theme options ────────────────────────────────────────────────────────────
+
+type ThemeId = "noir" | "blanco" | "calido" | "grafico";
+
+const THEME_OPTIONS: {
+  id: ThemeId;
+  label: string;
+  bg: string;
+  fg: string;
+  fontFamily: string;
+}[] = [
+  { id: "noir", label: "Noir", bg: "#0D0C0C", fg: "#EDE9DF", fontFamily: "Georgia, serif" },
+  { id: "blanco", label: "Blanco", bg: "#FAFAF7", fg: "#0A0A0A", fontFamily: "system-ui, sans-serif" },
+  { id: "calido", label: "Cálido", bg: "#F5EFE0", fg: "#2A1F14", fontFamily: "Georgia, serif" },
+  { id: "grafico", label: "Gráfico", bg: "#0A0A0A", fg: "#D4F000", fontFamily: "'Arial Black', sans-serif" },
+];
+
+// ── Component ───────────────────────────────────────────────────────────────
+
 export function BrandingEditor({ restaurant }: BrandingEditorProps) {
+  const [selectedTheme, setSelectedTheme] = useState<ThemeId | "">(
+    (restaurant.theme as ThemeId) ?? "",
+  );
   const [accent, setAccent] = useState(restaurant.accent_color ?? "#D4F000");
   const [fontId, setFontId] = useState<FontId | "">(
     (restaurant.font_family as FontId) ?? "",
@@ -140,6 +160,63 @@ export function BrandingEditor({ restaurant }: BrandingEditorProps) {
     <div className="grid gap-8 lg:grid-cols-2">
       {/* Form */}
       <form onSubmit={handleSubmit} className="space-y-6">
+        {/* Theme */}
+        <section className="space-y-4">
+          <h3 className="text-sm font-semibold uppercase tracking-wider text-muted-foreground">
+            Tema visual
+          </h3>
+          <div className="grid grid-cols-5 gap-2">
+            {/* No theme option */}
+            <label className="cursor-pointer">
+              <input
+                type="radio"
+                name="theme"
+                value=""
+                checked={selectedTheme === ""}
+                onChange={() => setSelectedTheme("")}
+                className="sr-only"
+              />
+              <div
+                className={`flex h-16 items-center justify-center rounded-lg border-2 text-xs font-medium transition-colors ${
+                  selectedTheme === ""
+                    ? "border-foreground bg-muted text-foreground"
+                    : "border-border bg-muted/40 text-muted-foreground hover:border-muted-foreground"
+                }`}
+              >
+                Auto
+              </div>
+            </label>
+
+            {THEME_OPTIONS.map((t) => (
+              <label key={t.id} className="cursor-pointer">
+                <input
+                  type="radio"
+                  name="theme"
+                  value={t.id}
+                  checked={selectedTheme === t.id}
+                  onChange={() => setSelectedTheme(t.id)}
+                  className="sr-only"
+                />
+                <div
+                  className={`flex h-16 items-end justify-start overflow-hidden rounded-lg border-2 px-2 pb-2 transition-all ${
+                    selectedTheme === t.id ? "border-foreground" : "border-transparent"
+                  }`}
+                  style={{ backgroundColor: t.bg }}
+                >
+                  <span
+                    className="text-xs font-semibold leading-none"
+                    style={{ fontFamily: t.fontFamily, color: t.fg }}
+                  >
+                    {t.label}
+                  </span>
+                </div>
+              </label>
+            ))}
+          </div>
+        </section>
+
+        <Separator />
+
         {/* Logo */}
         <section className="space-y-4">
           <h3 className="text-sm font-semibold uppercase tracking-wider text-muted-foreground">

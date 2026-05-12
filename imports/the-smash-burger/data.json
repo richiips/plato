@@ -1,0 +1,294 @@
+{
+  "restaurant_slug": "the-smash-burger",
+  "source_url": null,
+  "scraped_at": "2026-05-12",
+  "categories": [
+    {
+      "name": "Smash Burgers",
+      "slug": "smash-burgers",
+      "position": 1,
+      "items": [
+        {
+          "name": "The Classic",
+          "slug": "the-classic",
+          "description": "Doble smash patty de vacuno, queso americano fundido, pepinillo encurtido, cebolla caramelizada, mostaza y ketchup de la casa en brioche tostado.",
+          "price": 9900,
+          "currency": "CLP",
+          "available": true,
+          "image_local": null,
+          "image_source_url": null,
+          "tags": ["bestseller"],
+          "allergens": ["gluten", "lacteos", "mostaza"]
+        },
+        {
+          "name": "Smoked BBQ",
+          "slug": "smoked-bbq",
+          "description": "Doble patty, cheddar ahumado, tocino crocante, cebolla frita, salsa BBQ de ciruelas y mayonesa de chipotle.",
+          "price": 11500,
+          "currency": "CLP",
+          "available": true,
+          "image_local": null,
+          "image_source_url": null,
+          "tags": [],
+          "allergens": ["gluten", "lacteos", "huevo"]
+        },
+        {
+          "name": "Truffle Shroom",
+          "slug": "truffle-shroom",
+          "description": "Doble patty, gruyère derretido, champiñones salteados con ajo, crema de trufa negra y rúcula fresca.",
+          "price": 12900,
+          "currency": "CLP",
+          "available": true,
+          "image_local": null,
+          "image_source_url": null,
+          "tags": ["nuevo"],
+          "allergens": ["gluten", "lacteos"]
+        },
+        {
+          "name": "Spicy Korean",
+          "slug": "spicy-korean",
+          "description": "Doble patty, queso americano, kimchi casero, mayo de gochujang, pepino fresco y sésamo tostado.",
+          "price": 12500,
+          "currency": "CLP",
+          "available": true,
+          "image_local": null,
+          "image_source_url": null,
+          "tags": ["picante"],
+          "allergens": ["gluten", "lacteos", "sesamo", "soja"]
+        },
+        {
+          "name": "The Veggie",
+          "slug": "the-veggie",
+          "description": "Patty de lentejas y champiñones, queso de cabra, tomate confitado, espinaca baby y alioli de limón. Sin carne.",
+          "price": 10900,
+          "currency": "CLP",
+          "available": true,
+          "image_local": null,
+          "image_source_url": null,
+          "tags": ["vegetariano"],
+          "allergens": ["gluten", "lacteos", "huevo"]
+        },
+        {
+          "name": "Double Trouble",
+          "slug": "double-trouble",
+          "description": "Triple patty, triple queso americano, pepinillo, cebolla, ketchup y mostaza. Para los que saben.",
+          "price": 13900,
+          "currency": "CLP",
+          "available": true,
+          "image_local": null,
+          "image_source_url": null,
+          "tags": ["bestseller"],
+          "allergens": ["gluten", "lacteos", "mostaza"]
+        }
+      ]
+    },
+    {
+      "name": "Sides",
+      "slug": "sides",
+      "position": 2,
+      "items": [
+        {
+          "name": "Smash Fries",
+          "slug": "smash-fries",
+          "description": "Papas fritas a la española con sal de mar, romero y alioli de ajo asado.",
+          "price": 4500,
+          "currency": "CLP",
+          "available": true,
+          "image_local": null,
+          "image_source_url": null,
+          "tags": [],
+          "allergens": ["huevo"]
+        },
+        {
+          "name": "Cheese Fries",
+          "slug": "cheese-fries",
+          "description": "Papas fritas cubiertas con salsa de queso cheddar fundido y cebollín fresco.",
+          "price": 5900,
+          "currency": "CLP",
+          "available": true,
+          "image_local": null,
+          "image_source_url": null,
+          "tags": ["bestseller"],
+          "allergens": ["lacteos"]
+        },
+        {
+          "name": "Onion Rings",
+          "slug": "onion-rings",
+          "description": "Aros de cebolla morada en tempura de cerveza con dip de mostaza y miel.",
+          "price": 5200,
+          "currency": "CLP",
+          "available": true,
+          "image_local": null,
+          "image_source_url": null,
+          "tags": [],
+          "allergens": ["gluten", "mostaza"]
+        },
+        {
+          "name": "Mac & Cheese Bites",
+          "slug": "mac-cheese-bites",
+          "description": "Croquetas cremosas de macarrones con queso, apanadas y fritas. Seis unidades.",
+          "price": 5500,
+          "currency": "CLP",
+          "available": false,
+          "image_local": null,
+          "image_source_url": null,
+          "tags": ["agotado"],
+          "allergens": ["gluten", "lacteos", "huevo"]
+        },
+        {
+          "name": "Ensalada de la Casa",
+          "slug": "ensalada-de-la-casa",
+          "description": "Mix de hojas, tomate cherry, pepino, zanahoria rallada y aderezo de mostaza antigua.",
+          "price": 4200,
+          "currency": "CLP",
+          "available": true,
+          "image_local": null,
+          "image_source_url": null,
+          "tags": ["saludable"],
+          "allergens": ["mostaza"]
+        }
+      ]
+    },
+    {
+      "name": "Salsas Extra",
+      "slug": "salsas-extra",
+      "position": 3,
+      "items": [
+        {
+          "name": "Mayo Chipotle",
+          "slug": "mayo-chipotle",
+          "description": "Mayonesa ahumada con chipotle y limón. 60ml.",
+          "price": 1200,
+          "currency": "CLP",
+          "available": true,
+          "image_local": null,
+          "image_source_url": null,
+          "tags": [],
+          "allergens": ["huevo"]
+        },
+        {
+          "name": "BBQ de Ciruelas",
+          "slug": "bbq-de-ciruelas",
+          "description": "Salsa BBQ artesanal con ciruelas secas, vinagre de manzana y especias. 60ml.",
+          "price": 1200,
+          "currency": "CLP",
+          "available": true,
+          "image_local": null,
+          "image_source_url": null,
+          "tags": [],
+          "allergens": []
+        },
+        {
+          "name": "Trufa Negra",
+          "slug": "trufa-negra",
+          "description": "Crema de trufa negra con aceite de oliva. 40ml.",
+          "price": 2500,
+          "currency": "CLP",
+          "available": true,
+          "image_local": null,
+          "image_source_url": null,
+          "tags": ["premium"],
+          "allergens": ["lacteos"]
+        }
+      ]
+    },
+    {
+      "name": "Bebidas",
+      "slug": "bebidas",
+      "position": 4,
+      "items": [
+        {
+          "name": "Limonada de Jengibre",
+          "slug": "limonada-de-jengibre",
+          "description": "Limonada natural con jengibre fresco, menta y soda. Sin azúcar.",
+          "price": 3800,
+          "currency": "CLP",
+          "available": true,
+          "image_local": null,
+          "image_source_url": null,
+          "tags": [],
+          "allergens": []
+        },
+        {
+          "name": "Agua Mineral",
+          "slug": "agua-mineral",
+          "description": "Cachantún 500ml, con o sin gas.",
+          "price": 1800,
+          "currency": "CLP",
+          "available": true,
+          "image_local": null,
+          "image_source_url": null,
+          "tags": [],
+          "allergens": []
+        },
+        {
+          "name": "Cerveza Artesanal",
+          "slug": "cerveza-artesanal",
+          "description": "Rotación de cervezas artesanales nacionales. Consultar disponibilidad del día. 330ml.",
+          "price": 5500,
+          "currency": "CLP",
+          "available": true,
+          "image_local": null,
+          "image_source_url": null,
+          "tags": [],
+          "allergens": ["gluten"]
+        },
+        {
+          "name": "Coca-Cola",
+          "slug": "coca-cola",
+          "description": "Lata 350ml.",
+          "price": 2200,
+          "currency": "CLP",
+          "available": true,
+          "image_local": null,
+          "image_source_url": null,
+          "tags": [],
+          "allergens": []
+        },
+        {
+          "name": "Jugo de Naranja Natural",
+          "slug": "jugo-de-naranja-natural",
+          "description": "Naranja exprimida al momento. 300ml.",
+          "price": 3500,
+          "currency": "CLP",
+          "available": true,
+          "image_local": null,
+          "image_source_url": null,
+          "tags": [],
+          "allergens": []
+        }
+      ]
+    },
+    {
+      "name": "Postres",
+      "slug": "postres",
+      "position": 5,
+      "items": [
+        {
+          "name": "Smash Brownie",
+          "slug": "smash-brownie",
+          "description": "Brownie de chocolate bitter con helado de vainilla de Madagascar y sal de mar.",
+          "price": 5900,
+          "currency": "CLP",
+          "available": true,
+          "image_local": null,
+          "image_source_url": null,
+          "tags": ["bestseller"],
+          "allergens": ["gluten", "lacteos", "huevo"]
+        },
+        {
+          "name": "Cheesecake de Maracuyá",
+          "slug": "cheesecake-de-maracuya",
+          "description": "Base de galleta, crema de queso y coulis de maracuyá. Porción individual.",
+          "price": 5500,
+          "currency": "CLP",
+          "available": true,
+          "image_local": null,
+          "image_source_url": null,
+          "tags": [],
+          "allergens": ["gluten", "lacteos", "huevo"]
+        }
+      ]
+    }
+  ]
+}

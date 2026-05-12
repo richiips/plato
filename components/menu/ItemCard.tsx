@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { Leaf, WheatOff, MilkOff, Flame, Star, Sparkles } from "lucide-react";
+import { Plus, Check, Leaf, WheatOff, MilkOff, Flame, Star, Sparkles } from "lucide-react";
 import { cn } from "@/lib/utils";
 import type { MenuItem } from "@/types/database";
 import type { DietaryTag, SupportedLanguage } from "@/types/menu";
@@ -30,87 +30,141 @@ function formatPrice(amount: number, currency: string): string {
 interface ItemCardProps {
   item: MenuItem;
   language: SupportedLanguage;
+  viewMode: "list" | "grid";
+  onSelect: (item: MenuItem) => void;
+  inWishlist: boolean;
+  onToggleWishlist: (itemId: string) => void;
 }
 
-export function ItemCard({ item, language }: ItemCardProps) {
+export function ItemCard({ item, language, viewMode, onSelect, inWishlist, onToggleWishlist }: ItemCardProps) {
   const name = getLocalizedText(item.name, language);
   const description = getLocalizedText(item.description ?? undefined, language);
   const tags = item.dietary_tags as DietaryTag[];
 
-  return (
-    <article
-      className={cn(
-        "flex gap-3 rounded-xl bg-card p-3 transition-shadow hover:shadow-sm",
-        !item.is_available && "opacity-60",
-      )}
-      style={{ border: "var(--card-stroke)" }}
-    >
-      {/* Text content */}
-      <div className="flex min-w-0 flex-1 flex-col justify-between gap-2">
-        <div>
-          <div className="flex items-start justify-between gap-2">
-            <h3 className="font-semibold leading-snug text-card-foreground">{name}</h3>
+  if (viewMode === "grid") {
+    return (
+      <article
+        onClick={() => onSelect(item)}
+        className={cn(
+          "cursor-pointer overflow-hidden rounded-xl bg-card transition-all hover:shadow-sm active:scale-[0.98]",
+          !item.is_available && "opacity-60",
+        )}
+        style={{ border: "var(--card-stroke)" }}
+      >
+        {/* Photo — square, full card width */}
+        <div className="relative aspect-square w-full bg-muted">
+          {item.main_image_url ? (
+            <Image
+              src={item.main_image_url}
+              alt={name}
+              fill
+              className="object-cover"
+              sizes="(max-width: 768px) 50vw, 33vw"
+            />
+          ) : (
+            <div className="absolute inset-0 flex items-center justify-center text-3xl text-muted-foreground opacity-30">
+              🍽
+            </div>
+          )}
+          {!item.is_available && (
+            <span className="absolute right-2 top-2 rounded-full bg-black/60 px-2 py-0.5 text-[10px] text-white">
+              Agotado
+            </span>
+          )}
+        </div>
+
+        {/* Info */}
+        <div className="p-3">
+          <h3
+            className="truncate text-sm font-semibold leading-snug text-card-foreground"
+            style={{ fontFamily: "var(--menu-font-heading)" }}
+          >
+            {name}
+          </h3>
+          <div className="mt-2 flex items-center justify-between gap-1">
+            <span className="text-sm font-semibold" style={{ color: "var(--menu-accent)" }}>
+              {formatPrice(item.price, item.currency)}
+            </span>
+            <button
+              onClick={(e) => { e.stopPropagation(); onToggleWishlist(item.id); }}
+              aria-label={inWishlist ? `Quitar ${name} de guardados` : `Guardar ${name}`}
+              className={cn(
+                "flex h-7 w-7 shrink-0 items-center justify-center rounded-full text-white transition-all hover:opacity-80 active:scale-95",
+                inWishlist && "scale-90",
+              )}
+              style={{ backgroundColor: inWishlist ? "var(--foreground)" : "var(--menu-accent)" }}
+            >
+              {inWishlist ? <Check className="h-3.5 w-3.5" /> : <Plus className="h-3.5 w-3.5" />}
+            </button>
+          </div>
+        </div>
+      </article>
+    );
+  }
+
+  if (viewMode === "list") {
+    return (
+      <article
+        onClick={() => onSelect(item)}
+        className={cn(
+          "flex cursor-pointer gap-3 rounded-xl bg-card p-3 transition-all hover:shadow-sm active:scale-[0.99]",
+          !item.is_available && "opacity-60",
+        )}
+        style={{ border: "var(--card-stroke)" }}
+      >
+        {/* Photo */}
+        {item.main_image_url && (
+          <div className="relative h-24 w-24 shrink-0 overflow-hidden rounded-xl">
+            <Image
+              src={item.main_image_url}
+              alt={name}
+              fill
+              className="object-cover"
+              sizes="96px"
+            />
+          </div>
+        )}
+
+        {/* Text + price row */}
+        <div className="flex min-w-0 flex-1 flex-col justify-between gap-1">
+          <div>
+            <h3
+              className="font-semibold text-sm leading-snug text-card-foreground"
+              style={{ fontFamily: "var(--menu-font-heading)" }}
+            >
+              {name}
+            </h3>
+            {description && (
+              <p className="mt-0.5 text-xs leading-relaxed text-muted-foreground line-clamp-2">
+                {description}
+              </p>
+            )}
             {!item.is_available && (
-              <span className="shrink-0 rounded-full bg-muted px-2 py-0.5 text-xs text-muted-foreground">
+              <span className="mt-1 inline-block rounded-full bg-muted px-2 py-0.5 text-[10px] text-muted-foreground">
                 Agotado
               </span>
             )}
           </div>
-
-          {description && (
-            <p className="mt-0.5 text-sm leading-relaxed text-muted-foreground line-clamp-2">
-              {description}
-            </p>
-          )}
-        </div>
-
-        <div className="flex items-center justify-between gap-2">
-          {/* Price */}
-          <div className="flex items-baseline gap-2">
-            <span className="font-semibold" style={{ color: "var(--menu-primary)" }}>
+          <div className="flex items-center justify-between gap-2">
+            <span className="text-sm font-semibold" style={{ color: "var(--menu-accent)" }}>
               {formatPrice(item.price, item.currency)}
             </span>
-            {item.compare_at_price && item.compare_at_price > item.price && (
-              <span className="text-sm text-muted-foreground line-through">
-                {formatPrice(item.compare_at_price, item.currency)}
-              </span>
-            )}
+            <button
+              onClick={(e) => { e.stopPropagation(); onToggleWishlist(item.id); }}
+              aria-label={inWishlist ? `Quitar ${name} de guardados` : `Guardar ${name}`}
+              className={cn(
+                "flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-white transition-all active:scale-90",
+                inWishlist && "scale-90",
+              )}
+              style={{ backgroundColor: inWishlist ? "var(--foreground)" : "var(--menu-accent)" }}
+            >
+              {inWishlist ? <Check className="h-4 w-4" /> : <Plus className="h-4 w-4" />}
+            </button>
           </div>
-
-          {/* Dietary badges */}
-          {tags.length > 0 && (
-            <div className="flex shrink-0 flex-wrap justify-end gap-1">
-              {tags.slice(0, 3).map((tag) => {
-                const badge = DIETARY_BADGE[tag];
-                if (!badge) return null;
-                const { Icon } = badge;
-                return (
-                  <span
-                    key={tag}
-                    title={badge.label}
-                    className="flex items-center justify-center rounded-full bg-muted p-1"
-                  >
-                    <Icon className="h-3 w-3 text-muted-foreground" />
-                  </span>
-                );
-              })}
-            </div>
-          )}
         </div>
-      </div>
+      </article>
+    );
+  }
 
-      {/* Item image */}
-      {item.main_image_url && (
-        <div className="relative h-24 w-24 shrink-0 overflow-hidden rounded-lg">
-          <Image
-            src={item.main_image_url}
-            alt={name}
-            fill
-            className="object-cover"
-            sizes="96px"
-          />
-        </div>
-      )}
-    </article>
-  );
+  return null;
 }

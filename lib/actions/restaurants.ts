@@ -126,6 +126,7 @@ export async function updateBranding(id: string, formData: FormData) {
     font_family: (formData.get("font_family") as string) || null,
     logo_url: (formData.get("logo_url") as string) || null,
     card_stroke: (formData.get("card_stroke") as string) || null,
+    theme: (formData.get("theme") as string) || null,
   };
 
   await (supabase as AnyClient).from("restaurants").update(data).eq("id", id);
