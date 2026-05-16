@@ -7,8 +7,11 @@ export default async function DashboardBrandingPage() {
   return (
     <div className="space-y-4">
       <div>
-        <h1 className="text-xl font-bold">Branding</h1>
-        <p className="text-sm text-muted-foreground">
+        <p className="text-[10px] font-semibold uppercase tracking-widest text-muted-foreground">
+          Identidad visual
+        </p>
+        <h1 className="mt-1 text-2xl font-bold">Branding</h1>
+        <p className="mt-1 text-sm text-muted-foreground">
           Personaliza colores, tipografía e imágenes de tu carta.
         </p>
       </div>

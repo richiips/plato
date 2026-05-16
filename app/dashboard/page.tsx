@@ -37,7 +37,10 @@ export default async function DashboardPage() {
       {/* Header */}
       <div className="flex items-start justify-between gap-4">
         <div>
-          <h1 className="text-2xl font-bold">{restaurant.name}</h1>
+          <p className="text-[10px] font-semibold uppercase tracking-widest text-muted-foreground">
+            Tu restaurante
+          </p>
+          <h1 className="mt-1 text-2xl font-bold">{restaurant.name}</h1>
           <div className="mt-1 flex items-center gap-2">
             <span className="font-mono text-sm text-muted-foreground">/r/{restaurant.slug}</span>
             <Badge variant={restaurant.is_published ? "default" : "secondary"}>
@@ -66,8 +69,10 @@ export default async function DashboardPage() {
           { label: "Ítems disponibles", value: availableCount ?? 0 },
         ].map(({ label, value }) => (
           <div key={label} className="rounded-xl border border-border bg-background p-5">
-            <p className="text-sm text-muted-foreground">{label}</p>
-            <p className="mt-1 text-3xl font-bold tabular-nums">{value}</p>
+            <p className="text-[10px] font-semibold uppercase tracking-widest text-muted-foreground">
+              {label}
+            </p>
+            <p className="mt-2 text-4xl font-bold tabular-nums">{value}</p>
           </div>
         ))}
       </div>

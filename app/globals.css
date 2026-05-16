@@ -36,18 +36,18 @@
 
 :root {
   --radius: 0.625rem;
-  /* #FAFAF7 — base background */
-  --background: oklch(0.988 0.003 95);
+  /* #F7F6F4 — warm off-white */
+  --background: oklch(0.974 0.004 80);
   /* #0A0A0A — near-black */
   --foreground: oklch(0.105 0 0);
   --card: oklch(1 0 0);
   --card-foreground: oklch(0.105 0 0);
   --popover: oklch(1 0 0);
   --popover-foreground: oklch(0.105 0 0);
-  /* #D4F000 — acid yellow accent */
-  --primary: oklch(0.916 0.218 120.5);
-  /* #0A0A0A on top of yellow */
-  --primary-foreground: oklch(0.105 0 0);
+  /* #1C1B19 — charcoal dark */
+  --primary: oklch(0.141 0.005 65);
+  /* warm white on top of dark */
+  --primary-foreground: oklch(0.967 0.008 80);
   --secondary: oklch(0.97 0 0);
   --secondary-foreground: oklch(0.105 0 0);
   --muted: oklch(0.97 0 0);
@@ -59,7 +59,7 @@
   /* #0A0A0A at ~15% opacity */
   --border: oklch(0.105 0 0 / 15%);
   --input: oklch(0.105 0 0 / 15%);
-  --ring: oklch(0.916 0.218 120.5);
+  --ring: oklch(0.141 0.005 65);
   --chart-1: oklch(0.646 0.222 41.116);
   --chart-2: oklch(0.6 0.118 184.704);
   --chart-3: oklch(0.398 0.07 227.392);

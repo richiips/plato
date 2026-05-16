@@ -24,7 +24,12 @@ export default async function DashboardMenuPage() {
 
   return (
     <div className="space-y-4">
-      <h1 className="text-xl font-bold">Menú</h1>
+      <div>
+        <p className="text-[10px] font-semibold uppercase tracking-widest text-muted-foreground">
+          Editor
+        </p>
+        <h1 className="mt-1 text-2xl font-bold">Menú</h1>
+      </div>
       <MenuEditor
         restaurantId={restaurant.id}
         categories={categories ?? []}

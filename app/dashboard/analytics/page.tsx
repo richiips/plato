@@ -29,14 +29,21 @@ export default async function DashboardAnalyticsPage() {
 
   return (
     <div className="space-y-6">
-      <h1 className="text-xl font-bold">Analytics</h1>
+      <div>
+        <p className="text-[10px] font-semibold uppercase tracking-widest text-muted-foreground">
+          Datos
+        </p>
+        <h1 className="mt-1 text-2xl font-bold">Analytics</h1>
+      </div>
 
       {/* Summary cards */}
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         {Object.entries(counts).map(([type, count]) => (
           <div key={type} className="rounded-xl border border-border bg-background p-5">
-            <p className="text-xs text-muted-foreground">{EVENT_LABELS[type] ?? type}</p>
-            <p className="mt-1 text-3xl font-bold tabular-nums">{count}</p>
+            <p className="text-[10px] font-semibold uppercase tracking-widest text-muted-foreground">
+              {EVENT_LABELS[type] ?? type}
+            </p>
+            <p className="mt-2 text-4xl font-bold tabular-nums">{count}</p>
           </div>
         ))}
         {Object.keys(counts).length === 0 && (
